@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
-from plotnine import *
 import itertools
 from nilearn import image, plotting, datasets, masking
 import nibabel as nib
@@ -28,12 +27,12 @@ c_hemi = ['left', 'right']
 
 
 subj_list = ['hemispace1001','hemispace1002','hemispace1003', 'hemispace2001', 'hemispace2002', 'hemispace2003']
-#subj_list = ['hemispace1001','hemispace1002','hemispace1003']
+
 
 #subj_list=['hemispace2001', 'hemispace2002', 'hemispace2003']
 
-#subj_list = ['hemispace1002']
-#p_hemi = ['left']
+subj_list = ['hemispace1004']
+p_hemi = ['left']
 
 #left is negative, right is positive
 mni = load_mni152_brain_mask()
@@ -42,11 +41,10 @@ parcel_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_1mm_brain.nii.gz' #this is th
 anat_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for analysis
 parcel_root = "/user_data/vayzenbe/GitHub_Repos/fmri/roiParcels/"
 parcel_type = "mruczek_parcels/binary"
-parcels = ['V3ab','PPC', 'APC']
-parcels = ['V3ab']
+
 
 #for wang parcels iterate through the numbers you want
-parcel_num = list(range(16,25))
+parcel_num = list(range(7,25))
 parcels = []
 for pn in parcel_num:
     parcels.append(f'perc_VTPM_vol_roi{pn}_lh')
@@ -85,9 +83,40 @@ def create_mirror_brain(sub):
         anat_mirror[:mid[0],:,:] = anat_flip[:mid[0],:,:]
 
     anat_mirror = nib.Nifti1Image(anat_mirror, affine)  # create the volume image
+    hemi_mask = nib.Nifti1Image(hemi_mask, affine)  # create a mask for just that hemi image
+    nib.save(hemi_mask,f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mask_{p_hemi[sub[0]]}.nii.gz')
     nib.save(anat_mirror,f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mirrored.nii.gz')
     print('mirror saved to', f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mirrored.nii.gz')
 
+def create_hemi_mask(sub):
+    """
+    Creating hemispheric masks for control sub
+    """
+    print("creating hemisphere mask", sub[1])
+    sub_dir = f'{study_dir}/sub-{sub[1]}/ses-01/'
+    #stat_dir = f'{sub_dir}/fsl/{exp[1]}/HighLevel{suf}.gfeat/cope{copes[exp[0]]}.feat/'
+
+    for hemi in ['left','right']:
+         #load anat
+        anat_mask = image.load_img(f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mask.nii.gz')
+        affine = anat_mask.affine
+    
+        hemi_mask = image.get_data(anat_mask)
+        
+        #extract just one hemi
+        mid = list((np.array((hemi_mask.shape))/2).astype(int)) #find mid point of image
+
+        hemi_mask[hemi_mask>0] = 1 #ensure to mask all of it
+
+        if hemi == 'left':
+            hemi_mask[mid[0]:, :, :] = 0 
+
+        else:
+            hemi_mask[:mid[0], :, :] = 0 
+
+        hemi_mask = nib.Nifti1Image(hemi_mask, affine)  # create a mask for just that hemi image
+        nib.save(hemi_mask,f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mask_{hemi}.nii.gz')
+                
 
 def register_mni(sub):
     '''
@@ -169,8 +198,11 @@ def register_parcels(sub, parcel_dir, parcels):
 
 
 for ss in enumerate(subj_list):
-    
-    #create_mirror_brain(ss)
+    #if int(ss[1][-4:]) <2000:
+    #    create_mirror_brain(ss)
+    #else:
+    #    create_hemi_mask(ss)
+
     #register_mni(ss)
     #register_funcs(ss,exps)
     register_parcels(ss, f'{parcel_root}/{parcel_type}', parcels)
