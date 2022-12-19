@@ -31,8 +31,8 @@ subj_list = ['hemispace1001','hemispace1002','hemispace1003', 'hemispace2001', '
 
 #subj_list=['hemispace2001', 'hemispace2002', 'hemispace2003']
 
-subj_list = ['hemispace1004']
-p_hemi = ['left']
+subj_list = ['hemispace1005', 'hemispace1006', 'hemispace1007']
+p_hemi = ['right', 'right', 'left']
 
 #left is negative, right is positive
 mni = load_mni152_brain_mask()
@@ -198,10 +198,10 @@ def register_parcels(sub, parcel_dir, parcels):
 
 
 for ss in enumerate(subj_list):
-    #if int(ss[1][-4:]) <2000:
-    #    create_mirror_brain(ss)
-    #else:
-    #    create_hemi_mask(ss)
+    if int(ss[1][-4:]) <2000:
+        create_mirror_brain(ss)
+    else:
+        create_hemi_mask(ss)
 
     #register_mni(ss)
     #register_funcs(ss,exps)

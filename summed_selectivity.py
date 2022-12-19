@@ -22,8 +22,8 @@ Sub info
 '''
 #should correspond to the intact hemi of the sub
 #should have as many items as there are subs
-p_hemi = ['right', 'left','right', 'left'] 
-p_subs = ['hemispace1001','hemispace1002','hemispace1003','hemispace1004']
+p_hemi = ['left', 'right','right', 'left'] 
+p_subs = ['hemispace1002','hemispace1003','hemispace1006','hemispace1007']
 
 #controls always have left + right
 c_hemi = ['left', 'right']
@@ -275,5 +275,5 @@ def whole_brain_spread():
             
             control_summary.to_csv(f'results/control_whole_brain_summary{file_suf}.csv',index = False)
 #%%
-pathway_summed_selectivity()
+#pathway_summed_selectivity()
 whole_brain_spread()
