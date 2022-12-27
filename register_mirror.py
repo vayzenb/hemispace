@@ -42,7 +42,7 @@ anat_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the 
 parcel_root = "/user_data/vayzenbe/GitHub_Repos/fmri/roiParcels/"
 parcel_type = "mruczek_parcels/binary"
 
-
+'''
 #for wang parcels iterate through the numbers you want
 parcel_num = list(range(7,25))
 parcels = []
@@ -51,7 +51,7 @@ for pn in parcel_num:
     parcels.append(f'perc_VTPM_vol_roi{pn}_rh')
 
 print(parcels)
-
+'''
 
 #exp = 
 def create_mirror_brain(sub):
@@ -92,13 +92,13 @@ def create_hemi_mask(sub):
     """
     Creating hemispheric masks for control sub
     """
-    print("creating hemisphere mask", sub[1])
-    sub_dir = f'{study_dir}/sub-{sub[1]}/ses-01/'
+    print("creating hemisphere mask", sub)
+    sub_dir = f'{study_dir}/sub-{sub}/ses-01/'
     #stat_dir = f'{sub_dir}/fsl/{exp[1]}/HighLevel{suf}.gfeat/cope{copes[exp[0]]}.feat/'
 
     for hemi in ['left','right']:
          #load anat
-        anat_mask = image.load_img(f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mask.nii.gz')
+        anat_mask = image.load_img(f'{sub_dir}/anat/sub-{sub}_ses-01_T1w_brain_mask.nii.gz')
         affine = anat_mask.affine
     
         hemi_mask = image.get_data(anat_mask)
@@ -115,7 +115,7 @@ def create_hemi_mask(sub):
             hemi_mask[:mid[0], :, :] = 0 
 
         hemi_mask = nib.Nifti1Image(hemi_mask, affine)  # create a mask for just that hemi image
-        nib.save(hemi_mask,f'{sub_dir}/anat/sub-{sub[1]}_ses-01_T1w_brain_mask_{hemi}.nii.gz')
+        nib.save(hemi_mask,f'{sub_dir}/anat/sub-{sub}_ses-01_T1w_brain_mask_{hemi}.nii.gz')
                 
 
 def register_mni(sub):
@@ -195,14 +195,14 @@ def register_parcels(sub, parcel_dir, parcels):
 
 
 
+patient_subs=["hemispace1001", "hemispace1002", "hemispace1003","hemispace1004","hemispace1006","hemispace1007"]
 
+control_subs=["hemispace2001", "hemispace2002", "hemispace2003",
+"025", "038", "057", "059", "064", "067", "068", "071", "083", "084", "085", 
+"087", "088", "093", "094", "095", "096", "097", "103", "104", "105", "106", "107", 
+"spaceloc1001", "spaceloc1002", "spaceloc1003", "spaceloc1004", "spaceloc1005", "spaceloc1006",
+    "spaceloc1007", "spaceloc1008", "spaceloc1009", "spaceloc1010", "spaceloc1011", "spaceloc1012",
+	 "spaceloc2013", "spaceloc2014", "spaceloc2015", "spaceloc2016", "spaceloc2017", "spaceloc2018" ]
 
-for ss in enumerate(subj_list):
-    if int(ss[1][-4:]) <2000:
-        create_mirror_brain(ss)
-    else:
-        create_hemi_mask(ss)
-
-    #register_mni(ss)
-    #register_funcs(ss,exps)
-    register_parcels(ss, f'{parcel_root}/{parcel_type}', parcels)
+for sub in control_subs:
+    create_hemi_mask(sub)
