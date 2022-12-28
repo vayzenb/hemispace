@@ -1,0 +1,9 @@
+subj,group,task,hemi,selec_spread
+hemispace1001,patient,space,right,0.3636053324803275
+hemispace1002,patient,space,left,0.004248489411743634
+hemispace1003,patient,space,right,0.012995723340915267
+hemispace1004,patient,space,left,0.13537426948154155
+hemispace1001,patient,tool,right,0.015837699089064784
+hemispace1002,patient,tool,left,0.022621340609060247
+hemispace1003,patient,tool,right,0.010572732114113626
+hemispace1004,patient,tool,left,0.050404949164826435

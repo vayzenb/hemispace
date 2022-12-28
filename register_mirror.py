@@ -204,5 +204,7 @@ control_subs=["hemispace2001", "hemispace2002", "hemispace2003",
     "spaceloc1007", "spaceloc1008", "spaceloc1009", "spaceloc1010", "spaceloc1011", "spaceloc1012",
 	 "spaceloc2013", "spaceloc2014", "spaceloc2015", "spaceloc2016", "spaceloc2017", "spaceloc2018" ]
 
+control_subs=["spaceloc1001", "spaceloc1002"]
+
 for sub in control_subs:
     create_hemi_mask(sub)

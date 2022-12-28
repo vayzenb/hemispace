@@ -1,0 +1,13 @@
+subj,group,task,hemi,selec_spread
+hemispace1001,patient,space,right,0.6652424653839574
+hemispace1002,patient,space,left,0.06448898955558785
+hemispace1003,patient,space,right,0.02372483504671244
+hemispace1001,patient,tool,right,0.05943512184315406
+hemispace1002,patient,tool,left,0.047905446529770974
+hemispace1003,patient,tool,right,0.017860366151898743
+hemispace1001,patient,face,right,0.10325427625090801
+hemispace1002,patient,face,left,0.18268365913270215
+hemispace1003,patient,face,right,0.13628996035103239
+hemispace1001,patient,word,right,0.3258429706279967
+hemispace1002,patient,word,left,0.7223556854100903
+hemispace1003,patient,word,right,1.074364406793403
