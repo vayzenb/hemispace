@@ -1,0 +1,8 @@
+task,cond,cope
+spaceloc,space,4
+spaceloc,feat,5
+toolloc,tool,6
+toolloc,non_tool,7
+toolloc,object,5
+loc,face,10
+loc,word,12
