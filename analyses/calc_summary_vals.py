@@ -131,5 +131,8 @@ for sub, group, hemi in zip(sub_info['sub'], sub_info['group'], sub_info['intact
                     #apend to summary df
                     summary_df = summary_df.append({'sub': sub, 'group': group, 'hemi': hemi, 'roi': roi, 'cond': cond, 'roi_size': roi_size, 'mean_act': mean_act, 'volume': cortex_vol, 'sum_selec': sum_selec, 'sum_selec_norm': sum_selec_norm}, ignore_index = True)
 
+                else:
+                    print(f'{sub} {task} does not exist')
+
     #save summary df
     summary_df.to_csv(f'{results_dir}/hemispace_summary_vals{suf}.csv', index = False)

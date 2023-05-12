@@ -109,7 +109,7 @@ def register_mni(sub,group):
     Register to MNI
     '''
     
-    print('Registering subj to MNI...')
+    print('Registering subj to MNI...', sub)
     anat_dir = f'{study_dir}/{sub}/ses-01/anat/'
     if group == 'patient':
         anat_mirror = f'{anat_dir}/{sub}_ses-01_T1w_brain_mirrored.nii.gz'
@@ -122,21 +122,21 @@ def register_mni(sub,group):
 
     #pdb.set_trace()
     #create registration matrix for patient to mni
-    bash_cmd = f'flirt -in {anat_mirror} -ref {anat_mni} -omat {anat_dir}/mirror2stand.mat -bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12'
+    bash_cmd = f'flirt -in {anat_mirror} -ref {anat_mni} -omat {anat_dir}/anat2stand.mat -bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12'
     subprocess.run(bash_cmd.split(), check = True)
-    print('created mirror to standard mat')
+    
 
     #Create mni of patient brain
-    bash_cmd = f'flirt -in {anat} -ref {anat_mni} -out {anat_dir}/{sub}_ses-01_T1w_brain_stand.nii.gz -applyxfm -init {anat_dir}/mirror2stand.mat -interp trilinear'
+    bash_cmd = f'flirt -in {anat} -ref {anat_mni} -out {anat_dir}/{sub}_ses-01_T1w_brain_stand.nii.gz -applyxfm -init {anat_dir}/anat2stand.mat -interp trilinear'
     subprocess.run(bash_cmd.split(), check = True)
 
-    print('Registered patient to MNI')
+    
 
     #create registration matrix for mni to patient
     #use parcel MNI here
-    bash_cmd = f'flirt -in {parcel_mni} -ref {anat_mirror} -omat {anat_dir}/parcel2mirror.mat -bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12'
+    bash_cmd = f'flirt -in {parcel_mni} -ref {anat_mirror} -omat {anat_dir}/mni2anat.mat -bins 256 -cost corratio -searchrx -90 90 -searchry -90 90 -searchrz -90 90 -dof 12'
     subprocess.run(bash_cmd.split(), check = True)
-    print('Created mni_1mm to subj')
+    
 
 def register_funcs(sub, exps):
     """
@@ -166,11 +166,11 @@ def register_parcels(sub, parcel_dir, parcels):
     for rp in parcels:
         
         roi_parcel  = f'{parcel_dir}/{rp}.nii.gz'
-        bash_cmd = f'flirt -in {roi_parcel} -ref {anat} -out {roi_dir}/parcels/{rp}.nii.gz -applyxfm -init {anat_dir}/parcel2mirror.mat -interp trilinear'
+        bash_cmd = f'flirt -in {roi_parcel} -ref {anat} -out {roi_dir}/parcels/{rp}.nii.gz -applyxfm -init {anat_dir}/mni2anat.mat -interp trilinear'
         subprocess.run(bash_cmd.split(), check = True)
 
-        bash_cmd = f'fslmaths {roi_dir}/parcels/{rp}.nii.gz -bin {roi_dir}/parcels/{rp}.nii.gz'
-        subprocess.run(bash_cmd.split(), check = True)
+        #bash_cmd = f'fslmaths {roi_dir}/parcels/{rp}.nii.gz -bin {roi_dir}/parcels/{rp}.nii.gz'
+        #subprocess.run(bash_cmd.split(), check = True)
 
 
         #load parcel
@@ -208,11 +208,7 @@ control_subs=["hemispace2001", "hemispace2002", "hemispace2003",
     "spaceloc1007", "spaceloc1008", "spaceloc1009", "spaceloc1010", "spaceloc1011", "spaceloc1012",
 	 "spaceloc2013", "spaceloc2014", "spaceloc2015", "spaceloc2016", "spaceloc2017", "spaceloc2018" ]
 
-all_subs = ["025", "038", "057", "059", "064", "067", "068", "071", "083", "084", "085", 
-"087", "088", "093", "094", "095", "096", "097", "103", "104", "105", "106", "107", 
-"spaceloc1001", "spaceloc1002", "spaceloc1003", "spaceloc1004", "spaceloc1005", "spaceloc1006",
-    "spaceloc1007", "spaceloc1008", "spaceloc1009", "spaceloc1010", "spaceloc1011", "spaceloc1012",
-	 "spaceloc2013", "spaceloc2014", "spaceloc2015", "spaceloc2016", "spaceloc2017", "spaceloc2018" ]
+all_subs = sub_info['sub'].values
 
 
 for sub in all_subs:
@@ -233,6 +229,6 @@ for sub in all_subs:
     '''
 
 
-    register_mni(sub,group)
+    #register_mni(sub,group)
     register_parcels(sub, parcel_dir, parcels)
 
