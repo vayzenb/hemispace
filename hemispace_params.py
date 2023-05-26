@@ -2,6 +2,8 @@
 import pandas as pd
 import numpy as np
 
+runs = [1,2]
+
 curr_dir = f'/user_data/vayzenbe/GitHub_Repos/hemispace'
 data_dir = f'/lab_data/behrmannlab/vlad/hemispace'
 results_dir = f'{curr_dir}/results'

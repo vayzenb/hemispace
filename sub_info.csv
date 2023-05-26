@@ -5,8 +5,8 @@ sub-hemispace1003,FO,patient,hemispace,20,right,1,1
 sub-hemispace1004,BI,patient,hemispace,18,left,1,1
 sub-hemispace1006,KN,patient,hemispace,12,right,1,1
 sub-hemispace1007,BN,patient,hemispace,19,left,1,1
-sub-hemispace2001,1,control,hemispace,18,both,1,1
-sub-hemispace2002,2,control,hemispace,14,both,1,1
+sub-hemispace2001,,control,hemispace,18,both,1,1
+sub-hemispace2002,,control,hemispace,14,both,1,1
 sub-hemispace2003,,control,hemispace,38,both,1,1
 sub-103,,control,hemispace,13,both,1,1
 sub-104,,control,hemispace,10,both,1,0

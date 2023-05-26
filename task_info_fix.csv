@@ -1,8 +1,8 @@
-task,cond,cope
-spaceloc,space,4
-spaceloc,feat,5
-toolloc,tool,6
-toolloc,non_tool,7
-toolloc,object,5
-loc,face,10
-loc,word,12
+task,cond,cope,cov_name,vols,tr
+spaceloc,space,4,SA,321,1
+spaceloc,feat,5,F,321,1
+toolloc,tool,6,tool,341,1
+toolloc,non_tool,7,non_tool,341,1
+toolloc,object,5,Object,184,2
+loc,face,10,Face,184,2
+loc,word,12,Word,184,2
