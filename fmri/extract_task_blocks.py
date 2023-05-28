@@ -20,6 +20,7 @@ warnings.filterwarnings("ignore")
 
 import hemispace_params as params
 
+
 sub = sys.argv[1]
 
 
@@ -89,81 +90,84 @@ def lookup_cov_info(sub,task,cond, run):
 
 
 
-task = 'spaceloc'
 
-run = [1,2]
+
+
 
 #extract hemi info
 hemi = sub_info['intact_hemi'][sub_info['sub'] == sub].values[0]
 
-
-#convert hemi to suffix
-if hemi == 'left':
-    hemi = '_left'
-elif hemi == 'right':
-    hemi = '_right'
+if hemi == 'both':
+    hemis = ['left','right']
 else:
-    hemi = ''
+    hemis = [hemi]
 
-#load anat mask
-anat_mask = image.load_img(f'{data_dir}/{sub}/ses-01/anat/{sub}_ses-01_T1w_brain_mask{hemi}.nii.gz')
-for task,cond in zip(task_info['task'], task_info['cond']):
-    for roi in rois:
-        print(f'Extracting {sub} {task} {cond} {roi} data')
-        #load roi
-        if roi != 'hemi':
-            #load the roi
-            roi_img = image.load_img(f'{sub_dir}/derivatives/rois/parcels/{roi}.nii.gz')
-            #binarize the mask and roi
-            roi_img = image.binarize_img(roi_img, threshold = 0.5, mask_img=anat_mask)
-        else:
-            roi_img = anat_mask  
-        
-        all_data = []
-        for run in runs:
-            run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
-            filtered_func = f'{run_dir}/filtered_func_data_reg.nii.gz'
+for hemi in hemis:
+    #load anat mask
+    anat_mask = image.load_img(f'{data_dir}/{sub}/ses-01/anat/{sub}_ses-01_T1w_brain_mask_{hemi}.nii.gz')
+    for task,cond in zip(task_info['task'], task_info['cond']):
+        for roi in rois:
+            print(f'Extracting {sub} {task} {cond} {roi} data')
+            #load roi
+            if roi != 'hemi':
+                #load the roi
+                roi_img = image.load_img(f'{sub_dir}/derivatives/rois/parcels/{roi}.nii.gz')
+                #binarize the mask and roi
+                roi_img = image.binarize_img(roi_img, threshold = 0.5, mask_img=anat_mask)
+            else:
+                roi_img = anat_mask  
             
-            cov = lookup_cov_info(sub,task,cond, run)
+            all_data = []
+            for run in runs:
+                run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
+                filtered_func = f'{run_dir}/filtered_func_data_reg.nii.gz'
+                if os.path.exists(filtered_func):
+                    
+                    cov = lookup_cov_info(sub,task,cond, run)
+                    
+                    #load filtered data
+                    filtered_data = image.load_img(filtered_func)
+                    filtered_data = image.clean_img(filtered_data, detrend = False, standardize = True)
+                    
+                    print('func loaded')
             
-            #load filtered data
-            filtered_data = image.load_img(filtered_func)
-            filtered_data = image.clean_img(filtered_data, detrend = False, standardize = True)
-            
-            print('func loaded')
-    
+                        
+                    #extract the activation values
+                    masker = maskers.NiftiMasker(mask_img=roi_img)
+                    masker.fit(filtered_data)
+                    roi_data = masker.transform(filtered_data)
+                    
+
+                    
+                    #extract the values for each cov
+                    for i in range(len(cov)):
+                        #convert cov to int
+                        curr_cov = cov[i].astype(int)
+                        #extract roi_data where cov == 1
+                        curr_block = roi_data[curr_cov==1,:]
+
+                        #average across time
+                        curr_block = np.mean(curr_block, axis = 0)
+
+                        #append current block data to all data
+                        all_data.append(curr_block)
+
+                #convert all_data to array
+                all_data = np.array(all_data)
                 
-            #extract the activation values
-            masker = maskers.NiftiMasker(mask_img=roi_img)
-            masker.fit(filtered_data)
-            roi_data = masker.transform(filtered_data)
+                #save all_data
+                np.save(f'{sub_dir}/derivatives/mvpa/{roi}_{task}_{cond}.npy', all_data)
+
+            else:
+                print(f'{sub} {task} {run} filtered_func_reg not found')
+                continue
             
 
-            
-            #extract the values for each cov
-            for i in range(len(cov)):
-                #convert cov to int
-                curr_cov = cov[i].astype(int)
-                #extract roi_data where cov == 1
-                curr_block = roi_data[curr_cov==1,:]
+                    
 
-                #average across time
-                curr_block = np.mean(curr_block, axis = 0)
-
-                #append current block data to all data
-                all_data.append(curr_block)
-
-        #convert all_data to array
-        all_data = np.array(all_data)
-        
-        #save all_data
-        np.save(f'{sub_dir}/derivatives/mvpa/{roi}_{task}_{cond}.npy', all_data)
 
                 
 
-
-            
-
-   
-
     
+
+        

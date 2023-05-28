@@ -36,16 +36,21 @@ anat = f'{sub_dir}/anat/{sub}_ses-01_T1w_brain.nii.gz'
 for task in task_info['task']:
     for run in runs:
         run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
-        
-        #check if run exists
-        if os.path.exists(run_dir):
+        filtered_func = f'{run_dir}/filtered_func_data.nii.gz'
+        out_func = f'{run_dir}/filtered_func_data_reg.nii.gz'
 
-            filtered_func = f'{run_dir}/filtered_func_data.nii.gz'
+        #check if out_func exists
+        if os.path.exists(out_func):
+            #check if run exists
+            if os.path.exists(filtered_func):
 
-            bash_cmd = f'flirt -in {filtered_func} -ref {anat} -out {filtered_func[:-7]}_reg.nii.gz -applyxfm -init {run_dir}/reg/example_func2standard.mat -interp trilinear'
-            print(bash_cmd)
-            subprocess.run(bash_cmd.split(), check=True)
+
+                bash_cmd = f'flirt -in {filtered_func} -ref {anat} -out {out_func} -applyxfm -init {run_dir}/reg/example_func2standard.mat -interp trilinear'
+                print(bash_cmd)
+                subprocess.run(bash_cmd.split(), check=True)
+
+            else:
+                print(f'run {run} for task {task} does not exist for subject {sub}')
 
         else:
-            print(f'run {run} for task {task} does not exist for subject {sub}')
-
+            print(f'run {run} for task {task} has already been registered for subject {sub}')

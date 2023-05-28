@@ -13,10 +13,10 @@ import time
 import pdb
 import hemispace_params as params
 
-mem = 32
+mem = 48
 run_time = "3-00:00:00"
 
-pause_time = 30 #how much time (minutes) to wait between jobs
+pause_time = 45 #how much time (minutes) to wait between jobs
 pause_crit = 10 #how many jobs to do before pausing
 
 
@@ -55,15 +55,15 @@ module load fsl-6.0.3
 
 
 
-
+script_name = 'fmri/extract_task_blocks.py'
+script_name = script_name.split('/')[-1].split('.')[0]
 
 n =0 
-
 for sub in sub_list['sub']:
 
 
-    job_name = f'{sub}_register_1stlevel'
-    script_path = f'python preprocessing/register_1stlevel.py {sub}'
+    job_name = f'{sub}_{script_name}'
+    script_path = f'python {script_name} {sub}'
     print(job_name)
 
     #create sbatch script
