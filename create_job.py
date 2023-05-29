@@ -47,6 +47,7 @@ def setup_sbatch(job_name, script_name):
 # Standard output and error log
 #SBATCH --output={curr_dir}/slurm_out/{job_name}.out
 
+
 conda activate fmri
 module load fsl-6.0.3  
 {script_name}
@@ -55,15 +56,16 @@ module load fsl-6.0.3
 
 
 
-script_name = 'fmri/extract_task_blocks.py'
-script_name = script_name.split('/')[-1].split('.')[0]
+script = f'{curr_dir}/fmri/pre_proc/register_1stlevel.py'
+script_name = script.split('/')[-1].split('.')[0]
 
 n =0 
 for sub in sub_list['sub']:
 
 
     job_name = f'{sub}_{script_name}'
-    script_path = f'python {script_name} {sub}'
+    script_path = f'python {script} {sub}'
+    
     print(job_name)
 
     #create sbatch script

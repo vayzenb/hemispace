@@ -39,18 +39,13 @@ for task in task_info['task']:
         filtered_func = f'{run_dir}/filtered_func_data.nii.gz'
         out_func = f'{run_dir}/filtered_func_data_reg.nii.gz'
 
-        #check if out_func exists
-        if os.path.exists(out_func):
-            #check if run exists
-            if os.path.exists(filtered_func):
+        #check if run exists
+        if os.path.exists(filtered_func):
 
 
-                bash_cmd = f'flirt -in {filtered_func} -ref {anat} -out {out_func} -applyxfm -init {run_dir}/reg/example_func2standard.mat -interp trilinear'
-                print(bash_cmd)
-                subprocess.run(bash_cmd.split(), check=True)
-
-            else:
-                print(f'run {run} for task {task} does not exist for subject {sub}')
+            bash_cmd = f'flirt -in {filtered_func} -ref {anat} -out {out_func} -applyxfm -init {run_dir}/reg/example_func2standard.mat -interp trilinear'
+            print(bash_cmd)
+            subprocess.run(bash_cmd.split(), check=True)
 
         else:
-            print(f'run {run} for task {task} has already been registered for subject {sub}')
+            print(f'run {run} for task {task} does not exist for subject {sub}')

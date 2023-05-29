@@ -14,6 +14,7 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import pdb
 from scipy.stats import gamma
+from scipy.stats import zscore
 import warnings
 #ignore warnings
 warnings.filterwarnings("ignore")
@@ -45,6 +46,7 @@ os.makedirs(f'{sub_dir}/derivatives/mvpa', exist_ok = True)
 
 
 def lookup_cov_info(sub,task,cond, run):
+    
     print('Creating cov...')
     #remove sub- from sub
     sub = sub.replace('sub-','')
@@ -53,7 +55,8 @@ def lookup_cov_info(sub,task,cond, run):
     vols = task_info['vols'][(task_info['task'] == task) & (task_info['cond'] == cond)].values[0]
     tr = task_info['tr'][(task_info['task'] == task) & (task_info['cond'] == cond)].values[0]
 
-    times = np.arange(0, vols, tr)
+    times = np.arange(0, vols*tr, tr)
+    
     if task == 'spaceloc':
         cov_file = f'{data_dir}/sub-{sub}/ses-01/covs/SpaceLoc_{sub}_Run{run}_{cov_name}.txt'
     elif task == 'toolloc':
@@ -63,7 +66,11 @@ def lookup_cov_info(sub,task,cond, run):
     
     #load cov file
     cov = pd.read_csv(cov_file, sep = '\t', header = None, names = ['onset','duration', 'value'])
+    #round onset and duration to nearest TR
+    cov['onset'] = np.round(cov['onset']/tr)*tr
+    cov['duration'] = np.round(cov['duration']/tr)*tr
 
+    #pdb.set_trace()
     final_cov = []
     #loop through rows of cov and create psy
     for i in range(cov.shape[0]):
@@ -85,10 +92,8 @@ def lookup_cov_info(sub,task,cond, run):
         #append to final cov
         final_cov.append(psy)
 
-
+    
     return final_cov
-
-
 
 
 
@@ -105,29 +110,34 @@ else:
 for hemi in hemis:
     #load anat mask
     anat_mask = image.load_img(f'{data_dir}/{sub}/ses-01/anat/{sub}_ses-01_T1w_brain_mask_{hemi}.nii.gz')
-    for task,cond in zip(task_info['task'], task_info['cond']):
-        for roi in rois:
+
+    for roi in rois:
+        
+        #load roi
+        if roi != 'hemi':
+            #load the roi
+            roi_img = image.load_img(f'{sub_dir}/derivatives/rois/parcels/{roi}.nii.gz')
+            #binarize the mask and roi
+            roi_img = image.binarize_img(roi_img, threshold = 0.5, mask_img=anat_mask)
+        else:
+            roi_img = anat_mask      
+        
+        for task,cond in zip(task_info['task'], task_info['cond']):
             print(f'Extracting {sub} {task} {cond} {roi} data')
-            #load roi
-            if roi != 'hemi':
-                #load the roi
-                roi_img = image.load_img(f'{sub_dir}/derivatives/rois/parcels/{roi}.nii.gz')
-                #binarize the mask and roi
-                roi_img = image.binarize_img(roi_img, threshold = 0.5, mask_img=anat_mask)
-            else:
-                roi_img = anat_mask  
-            
-            all_data = []
-            for run in runs:
-                run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
-                filtered_func = f'{run_dir}/filtered_func_data_reg.nii.gz'
-                if os.path.exists(filtered_func):
+
+            if os.path.exists(f'{sub_dir}/derivatives/fsl/{task}'):
+
+                all_data = []
+                for run in runs:
+                    run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
+                    filtered_func = f'{run_dir}/filtered_func_data_reg.nii.gz'
+                    
                     
                     cov = lookup_cov_info(sub,task,cond, run)
                     
                     #load filtered data
                     filtered_data = image.load_img(filtered_func)
-                    filtered_data = image.clean_img(filtered_data, detrend = False, standardize = True)
+                    #filtered_data = image.clean_img(filtered_data, detrend = False, standardize = True)
                     
                     print('func loaded')
             
@@ -136,6 +146,13 @@ for hemi in hemis:
                     masker = maskers.NiftiMasker(mask_img=roi_img)
                     masker.fit(filtered_data)
                     roi_data = masker.transform(filtered_data)
+                    #standardize the data
+                    roi_data = zscore(roi_data, axis = 0)
+
+
+                    del filtered_data
+                    del masker
+
                     
 
                     
@@ -154,20 +171,18 @@ for hemi in hemis:
 
                 #convert all_data to array
                 all_data = np.array(all_data)
-                
+                    
                 #save all_data
-                np.save(f'{sub_dir}/derivatives/mvpa/{roi}_{task}_{cond}.npy', all_data)
+                np.save(f'{sub_dir}/derivatives/mvpa/{hemi}_{roi}_{task}_{cond}.npy', all_data)
 
-            else:
-                print(f'{sub} {task} {run} filtered_func_reg not found')
-                continue
-            
+
+                
 
                     
 
 
-                
-
-    
+                    
 
         
+
+            

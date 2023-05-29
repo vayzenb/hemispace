@@ -1,0 +1,29 @@
+/home/vayzenbe/anaconda3/envs/fmri/lib/python3.9/site-packages/nilearn/input_data/__init__.py:23: FutureWarning: The import path 'nilearn.input_data' is deprecated in version 0.9. Importing from 'nilearn.input_data' will be possible at least until release 0.13.0. Please import from 'nilearn.maskers' instead.
+  warnings.warn(message, FutureWarning)
+Extracting sub-025 spaceloc space dorsal_visual_cortex data
+sub-025 spaceloc 2 filtered_func_reg not found
+Extracting sub-025 spaceloc space ventral_visual_cortex data
+sub-025 spaceloc 2 filtered_func_reg not found
+Extracting sub-025 spaceloc feat dorsal_visual_cortex data
+sub-025 spaceloc 2 filtered_func_reg not found
+Extracting sub-025 spaceloc feat ventral_visual_cortex data
+sub-025 spaceloc 2 filtered_func_reg not found
+Extracting sub-025 toolloc tool dorsal_visual_cortex data
+sub-025 toolloc 2 filtered_func_reg not found
+Extracting sub-025 toolloc tool ventral_visual_cortex data
+sub-025 toolloc 2 filtered_func_reg not found
+Extracting sub-025 toolloc non_tool dorsal_visual_cortex data
+sub-025 toolloc 2 filtered_func_reg not found
+Extracting sub-025 toolloc non_tool ventral_visual_cortex data
+sub-025 toolloc 2 filtered_func_reg not found
+Extracting sub-025 toolloc object dorsal_visual_cortex data
+sub-025 toolloc 2 filtered_func_reg not found
+Extracting sub-025 toolloc object ventral_visual_cortex data
+sub-025 toolloc 2 filtered_func_reg not found
+Extracting sub-025 loc face dorsal_visual_cortex data
+Creating cov...
+func loaded
+Traceback (most recent call last):
+  File "/user_data/vayzenbe/GitHub_Repos/hemispace/fmri/extract_task_blocks.py", line 147, in <module>
+    curr_block = roi_data[curr_cov==1,:]
+IndexError: boolean index did not match indexed array along dimension 0; dimension is 184 but corresponding boolean dimension is 92
