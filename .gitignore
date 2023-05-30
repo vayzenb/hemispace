@@ -1,0 +1,12 @@
+#Ignore weights files
+data/*
+checkpoint/*
+logs/*
+slurm_out/*
+
+*.pyc
+*.bak
+*.log
+*.tar
+*.pth
+*.out

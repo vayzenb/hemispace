@@ -125,7 +125,7 @@ for hemi in hemis:
         for task,cond in zip(task_info['task'], task_info['cond']):
             print(f'Extracting {sub} {task} {cond} {roi} data')
 
-            if os.path.exists(f'{sub_dir}/derivatives/fsl/{task}'):
+            if os.path.exists(f'{sub_dir}/derivatives/fsl/{task}/HighLevel.gfeat'):
 
                 all_data = []
                 for run in runs:

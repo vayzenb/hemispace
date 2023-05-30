@@ -16,7 +16,7 @@ import hemispace_params as params
 mem = 48
 run_time = "3-00:00:00"
 
-pause_time = 45 #how much time (minutes) to wait between jobs
+pause_time = 15 #how much time (minutes) to wait between jobs
 pause_crit = 10 #how many jobs to do before pausing
 
 
@@ -57,6 +57,7 @@ module load fsl-6.0.3
 
 
 script = f'{curr_dir}/fmri/pre_proc/register_1stlevel.py'
+script = f'{curr_dir}/fmri/extract_task_blocks.py'
 script_name = script.split('/')[-1].split('.')[0]
 
 n =0 
