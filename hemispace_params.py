@@ -16,10 +16,10 @@ task_info = pd.read_csv(f'{curr_dir}/task_info{suf}.csv')
 
 
 
-thresh = 2.3
+thresh = 2.58 #threshold for zstat at p < 0.01, uncorrected
 
 vox_size = 3
 
-rois = ['dorsal_visual_cortex', 'ventral_visual_cortex']
+rois = ['hemi','dorsal_visual_cortex', 'ventral_visual_cortex']
 
 hemis = ['left','right']

@@ -16,6 +16,10 @@ import pdb
 import os
 import hemispace_params as params
 
+#hide warnings
+import warnings
+warnings.filterwarnings("ignore")
+
 data_dir = params.data_dir
 results_dir = params.results_dir
 
@@ -25,8 +29,10 @@ task_info = params.task_info
 suf = params.suf
 thresh = params.thresh
 rois = params.rois
-start_over = True
+start_over = False
 
+#extract task info for just scramble cond
+task_info = task_info[task_info['cond'] == 'scramble']
 
 def calc_summary_vals(sub, task, cope, roi,hemi):
     """
@@ -56,6 +62,7 @@ def calc_summary_vals(sub, task, cope, roi,hemi):
     else:
         roi = anat_mask  
     
+    #pdb.set_trace()
     #calculate voxel size
     vox_size = np.prod(func.header.get_zooms())
 
@@ -84,22 +91,26 @@ def calc_summary_vals(sub, task, cope, roi,hemi):
     sum_selec = np.sum(vox_resp)
 
     #create normed sum selectivity that scaled to the ROI size
-    #multiply by 1000 to get values in the range of 0-1000
+    #multiply by 1000 to get values in an interpretable range
     sum_selec_norm = (sum_selec / roi_size)*1000
 
     return roi_size, mean_act,  cortex_vol, sum_selec, sum_selec_norm
 
 
-start_sub = '108'
+start_sub = ''
 #check if summary file already exists, else create it
 if start_over == False and os.path.exists(f'{results_dir}/hemispace_summary_vals{suf}.csv'):
     summary_df = pd.read_csv(f'{results_dir}/hemispace_summary_vals{suf}.csv')
-    #start sub_info from the line with sub-103
-    #find index for sub-XX in sub-info
-    sub_idx = sub_info[sub_info['sub'] == start_sub].index[0]
 
-    #start from sub-XX
-    sub_info = sub_info.iloc[sub_idx:]
+    #if start_sub not equal to empty string, start from that sub
+    # else start from the first sub in the sub_info file
+
+    if start_sub != '':
+        #find index for sub-XX in sub-info
+        sub_idx = sub_info[sub_info['sub'] == start_sub].index[0]
+        #start from sub-XX
+        sub_info = sub_info.iloc[sub_idx:]
+    
 else:
     #create empty summary file
     summary_df = pd.DataFrame(columns = ['sub', 'group', 'hemi', 'roi','cond', 'roi_size', 'mean_act', 'volume',  'sum_selec','sum_selec_norm'])
