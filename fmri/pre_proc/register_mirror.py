@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0,curr_dir)
 
 import matplotlib.pyplot as plt
-import seaborn as sns
+
 import numpy as np
 import pandas as pd
 import itertools
@@ -38,6 +38,11 @@ parcel_root = "/user_data/vayzenbe/GitHub_Repos/fmri/roiParcels"
 parcel_type = "mruczek_parcels/binary"
 
 parcels = params.rois
+
+#TEMP FOR V1
+parcel_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for both julian and mruczek parcels
+anat_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for analysis
+parcels = ['V1']
 
 #exp = 
 def create_mirror_brain(sub,hemi):
@@ -198,7 +203,7 @@ def register_parcels(sub, parcel_dir, parcels):
 #subprocess.run(bash_cmd.split(), check = True)
 
 
-
+'''
 patient_subs=["hemispace1001", "hemispace1002", "hemispace1003","hemispace1004","hemispace1006","hemispace1007", "108", "109"]
 
 control_subs=["hemispace2001", "hemispace2002", "hemispace2003",
@@ -207,6 +212,8 @@ control_subs=["hemispace2001", "hemispace2002", "hemispace2003",
 "spaceloc1001", "spaceloc1002", "spaceloc1003", "spaceloc1004", "spaceloc1005", "spaceloc1006",
     "spaceloc1007", "spaceloc1008", "spaceloc1009", "spaceloc1010", "spaceloc1011", "spaceloc1012",
 	 "spaceloc2013", "spaceloc2014", "spaceloc2015", "spaceloc2016", "spaceloc2017", "spaceloc2018" ]
+'''
+
 
 all_subs = sub_info['sub'].values
 

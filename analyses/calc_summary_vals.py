@@ -31,6 +31,7 @@ thresh = params.thresh
 rois = params.rois
 start_over = False
 
+rois = ['V1']
 #extract task info for just scramble cond
 task_info = task_info[task_info['cond'] == 'scramble']
 
