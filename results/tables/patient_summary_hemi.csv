@@ -1,0 +1,9 @@
+sub_code,hemi,word_ipsi,word_contra,face_ipsi,face_contra,tool_ipsi,tool_contra,space_ipsi,space_contra
+SI,Left,-,*,*,-,*,-,*,*
+BI,Left,*,*,-,*,-,-,-,-
+BN,Left,-,-,-,-,*,-,-,-
+XC,Left,-,-,*,*,-,-,-,-
+KT,Right,*,*,-,-,n/a,n/a,-,-
+FO,Right,*,*,*,-,-,-,*,*
+KN,Right,-,-,-,-,-,-,*,*
+EB,Right,*,*,-,-,-,-,*,-

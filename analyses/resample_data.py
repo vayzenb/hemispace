@@ -26,14 +26,16 @@ hemis = params.hemis
 #load summary file
 summary_df = pd.read_csv(f'{results_dir}/hemispace_summary_vals{suf}.csv')
 
+#extract only control subs
+summary_df = summary_df[summary_df['group'] == 'control']
+
 #number of resamples
 iter = 10000
 
-#number of subs to pull on each
+#number of subs to pull on each resample
 n_subs = 4
 
-#extract control subs
-control_subs = sub_info[sub_info['group'] == 'control']
+
 
 #make a list of all possible combinations of cond, hemi, and roi
 all_combos = list(itertools.product(task_info['cond'], hemis, rois))
@@ -51,7 +53,8 @@ for ii in range(0,iter):
     for hemi in hemis:
         for roi in rois:
             for cond in task_info['cond']:
-
+                
+                
                 #select data that meets cond
                 curr_data = summary_df[(summary_df['cond'] == cond) & (summary_df['roi'] == roi) & (summary_df['hemi'] == hemi)]
 
@@ -70,11 +73,11 @@ for ii in range(0,iter):
 
 
 #save each resample
-roi_size_df.to_csv(f'{results_dir}/roi_size_resamples{suf}.csv', index=False)
-mean_act_df.to_csv(f'{results_dir}/mean_act_resamples{suf}.csv', index=False)
-cortex_vol_df.to_csv(f'{results_dir}/cortex_vol_resamples{suf}.csv', index=False)
-sum_selec_df.to_csv(f'{results_dir}/sum_selec_resamples{suf}.csv', index=False)
-sum_selec_norm_df.to_csv(f'{results_dir}/sum_selec_norm_resamples{suf}.csv', index=False)
+roi_size_df.to_csv(f'{results_dir}/resamples/roi_size_resamples{suf}.csv', index=False)
+mean_act_df.to_csv(f'{results_dir}/resamples/mean_act_resamples{suf}.csv', index=False)
+cortex_vol_df.to_csv(f'{results_dir}/resamples/cortex_vol_resamples{suf}.csv', index=False)
+sum_selec_df.to_csv(f'{results_dir}/resamples/sum_selec_resamples{suf}.csv', index=False)
+sum_selec_norm_df.to_csv(f'{results_dir}/resamples/sum_selec_norm_resamples{suf}.csv', index=False)
 
 
 

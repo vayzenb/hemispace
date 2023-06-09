@@ -97,8 +97,6 @@ def lookup_cov_info(sub,task,cond, run):
 
 
 
-
-
 #extract hemi info
 hemi = sub_info['intact_hemi'][sub_info['sub'] == sub].values[0]
 
@@ -126,7 +124,7 @@ for hemi in hemis:
             print(f'Extracting {sub} {task} {cond} {roi} data')
 
             if os.path.exists(f'{sub_dir}/derivatives/fsl/{task}/HighLevel.gfeat'):
-
+                snr_list = []
                 all_data = []
                 for run in runs:
                     run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
@@ -164,16 +162,24 @@ for hemi in hemis:
                         curr_block = roi_data[curr_cov==1,:]
 
                         #average across time
-                        curr_block = np.mean(curr_block, axis = 0)
+                        curr_mean = np.mean(curr_block, axis = 0)
 
+                        #sneak in tSNR analysis here
+                        snr = curr_mean/np.std(curr_block, axis = 0)
+                        snr_list.append(np.nanmean(snr))
+
+                        
                         #append current block data to all data
-                        all_data.append(curr_block)
+                        all_data.append(curr_mean)
 
                 #convert all_data to array
                 all_data = np.array(all_data)
-                    
+                
+
                 #save all_data
                 np.save(f'{sub_dir}/derivatives/mvpa/{hemi}_{roi}_{task}_{cond}.npy', all_data)
+                np.save(f'{results_dir}/snr/{hemi}_{roi}_{task}_{cond}_snr.npy', np.mean(snr_list))
+                
 
 
                 
