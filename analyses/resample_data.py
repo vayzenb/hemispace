@@ -23,11 +23,7 @@ suf = params.suf
 rois = params.rois
 hemis = params.hemis
 
-#load summary file
-summary_df = pd.read_csv(f'{results_dir}/hemispace_summary_vals{suf}.csv')
 
-#extract only control subs
-summary_df = summary_df[summary_df['group'] == 'control']
 
 #number of resamples
 iter = 10000
@@ -35,53 +31,109 @@ iter = 10000
 #number of subs to pull on each resample
 n_subs = 4
 
-
+rois = ['dorsal_visual_cortex','ventral_visual_cortex']
 
 #make a list of all possible combinations of cond, hemi, and roi
 all_combos = list(itertools.product(task_info['cond'], hemis, rois))
 all_combos = ['_'.join(list(ele)) for ele in all_combos]
 
-#create dataframe with all possible combinations of condition hemi and roi as columns
-roi_size_df = pd.DataFrame(columns =all_combos)
-mean_act_df = pd.DataFrame(columns =all_combos)
-cortex_vol_df = pd.DataFrame(columns =all_combos)
-sum_selec_df = pd.DataFrame(columns =all_combos)
-sum_selec_norm_df = pd.DataFrame(columns =all_combos)
+def resample_selectivity():
+    """
+    Resample selectivity data
+    """
+    print('resampling selectivity data...')
+    results_dir = f'{params.results_dir}/selectivity'
 
-for ii in range(0,iter):
+    #load summary file
+    summary_df = pd.read_csv(f'{results_dir}/selectivity_summary{suf}.csv')
+
+    #extract only control subs
+    summary_df = summary_df[summary_df['group'] == 'control']
+    #create dataframe with all possible combinations of condition hemi and roi as columns
+    roi_size_df = pd.DataFrame(columns =all_combos)
+    mean_act_df = pd.DataFrame(columns =all_combos)
+    cortex_vol_df = pd.DataFrame(columns =all_combos)
+    sum_selec_df = pd.DataFrame(columns =all_combos)
+    sum_selec_norm_df = pd.DataFrame(columns =all_combos)
+
     
-    for hemi in hemis:
-        for roi in rois:
-            for cond in task_info['cond']:
-                
-                
-                #select data that meets cond
-                curr_data = summary_df[(summary_df['cond'] == cond) & (summary_df['roi'] == roi) & (summary_df['hemi'] == hemi)]
 
-                #select n_subs random subs
-                curr_subs = curr_data.sample(n = n_subs, replace = True)
+    for ii in range(0,iter):
+        
+        for hemi in hemis:
+            for roi in rois:
+                for cond in task_info['cond']:
+                    
+                    
+                    #select data that meets cond
+                    curr_data = summary_df[(summary_df['cond'] == cond) & (summary_df['roi'] == roi) & (summary_df['hemi'] == hemi)]
 
-                #get mean of each value
-                roi_size, mean_act,  cortex_vol, sum_selec, sum_selec_norm = curr_subs['roi_size'].mean(), curr_subs['mean_act'].mean(), curr_subs['volume'].mean(), curr_subs['sum_selec'].mean(), curr_subs['sum_selec_norm'].mean()
+                    #select n_subs random subs
+                    curr_subs = curr_data.sample(n = n_subs, replace = True)
 
-                #append to to dataframe
-                roi_size_df.loc[ii, f'{cond}_{hemi}_{roi}'] = roi_size
-                mean_act_df.loc[ii, f'{cond}_{hemi}_{roi}'] = mean_act
-                cortex_vol_df.loc[ii, f'{cond}_{hemi}_{roi}'] = cortex_vol
-                sum_selec_df.loc[ii, f'{cond}_{hemi}_{roi}'] = sum_selec
-                sum_selec_norm_df.loc[ii, f'{cond}_{hemi}_{roi}'] = sum_selec_norm
+                    #get mean of each value
+                    roi_size, mean_act,  cortex_vol, sum_selec, sum_selec_norm = curr_subs['roi_size'].mean(), curr_subs['mean_act'].mean(), curr_subs['volume'].mean(), curr_subs['sum_selec'].mean(), curr_subs['sum_selec_norm'].mean()
 
-
-#save each resample
-roi_size_df.to_csv(f'{results_dir}/resamples/roi_size_resamples{suf}.csv', index=False)
-mean_act_df.to_csv(f'{results_dir}/resamples/mean_act_resamples{suf}.csv', index=False)
-cortex_vol_df.to_csv(f'{results_dir}/resamples/cortex_vol_resamples{suf}.csv', index=False)
-sum_selec_df.to_csv(f'{results_dir}/resamples/sum_selec_resamples{suf}.csv', index=False)
-sum_selec_norm_df.to_csv(f'{results_dir}/resamples/sum_selec_norm_resamples{suf}.csv', index=False)
+                    #append to to dataframe
+                    roi_size_df.loc[ii, f'{cond}_{hemi}_{roi}'] = roi_size
+                    mean_act_df.loc[ii, f'{cond}_{hemi}_{roi}'] = mean_act
+                    cortex_vol_df.loc[ii, f'{cond}_{hemi}_{roi}'] = cortex_vol
+                    sum_selec_df.loc[ii, f'{cond}_{hemi}_{roi}'] = sum_selec
+                    sum_selec_norm_df.loc[ii, f'{cond}_{hemi}_{roi}'] = sum_selec_norm
 
 
+    #save each resample
+    roi_size_df.to_csv(f'{results_dir}/resamples/roi_size_resamples{suf}.csv', index=False)
+    mean_act_df.to_csv(f'{results_dir}/resamples/mean_act_resamples{suf}.csv', index=False)
+    cortex_vol_df.to_csv(f'{results_dir}/resamples/volume_resamples{suf}.csv', index=False)
+    sum_selec_df.to_csv(f'{results_dir}/resamples/sum_selec_resamples{suf}.csv', index=False)
+    sum_selec_norm_df.to_csv(f'{results_dir}/resamples/sum_selec_norm_resamples{suf}.csv', index=False)
 
 
 
+def resample_decoding():
+    """
+    Resample decoding data
+    """
+
+    print('resampling decoding data...')
+
+    results_dir = f'{params.results_dir}/decoding'
+
+    #load summary file
+    summary_df = pd.read_csv(f'{results_dir}/decoding_summary{suf}.csv')
+
+    #extract only control subs
+    summary_df = summary_df[summary_df['group'] == 'control']
+    #create dataframe with all possible combinations of condition hemi and roi as columns
+    decoding_df = pd.DataFrame(columns =all_combos)
 
 
+    for ii in range(0,iter):
+        
+        for hemi in hemis:
+            for roi in rois:
+                for cond in task_info['cond']:
+                    
+                    try:
+                        #select data that meets cond
+                        curr_data = summary_df[(summary_df['cond'] == cond) & (summary_df['roi'] == roi) & (summary_df['hemi'] == hemi)]
+
+                        #select n_subs random subs
+                        curr_subs = curr_data.sample(n = n_subs, replace = True)
+
+                        #get mean of each value
+                        acc= curr_subs['acc'].mean()
+
+                        #append to to dataframe
+                        decoding_df.loc[ii, f'{cond}_{hemi}_{roi}'] = acc
+                    except:
+                        continue
+                        
+
+    #save each resample
+    decoding_df.to_csv(f'{results_dir}/resamples/acc_resamples{suf}.csv', index=False)
+
+
+
+resample_decoding()
