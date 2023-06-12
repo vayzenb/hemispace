@@ -7,11 +7,3 @@ BI,Left,Summed Selectivity,*,*,-,*,-,-,-,-
 BN,Left,Summed Selectivity,-,-,-,-,*,*,-,-
 FO,Right,Summed Selectivity,*,-,-,-,-,-,*,*
 SI,Left,Summed Selectivity,-,*,*,-,-,-,*,*
-KN,Right,Summed Selectivity,-,-,-,-,-,-,*,*
-KT,Right,Summed Selectivity,*,*,-,-,n/a,n/a,-,-
-EB,Right,Summed Selectivity,*,*,-,-,-,-,*,-
-XC,Left,Summed Selectivity,-,-,*,*,-,-,-,-
-BI,Left,Summed Selectivity,*,*,-,*,-,-,-,-
-BN,Left,Summed Selectivity,-,-,-,-,*,-,-,-
-FO,Right,Summed Selectivity,*,*,*,-,-,-,*,*
-SI,Left,Summed Selectivity,-,*,*,-,-,-,*,*

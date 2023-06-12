@@ -31,7 +31,7 @@ iter = 10000
 #number of subs to pull on each resample
 n_subs = 4
 
-rois = ['dorsal_visual_cortex','ventral_visual_cortex']
+rois = params.rois
 
 #make a list of all possible combinations of cond, hemi, and roi
 all_combos = list(itertools.product(task_info['cond'], hemis, rois))
@@ -136,4 +136,5 @@ def resample_decoding():
 
 
 
-resample_decoding()
+resample_selectivity()
+#resample_decoding()
