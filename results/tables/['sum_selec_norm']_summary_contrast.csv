@@ -1,9 +1,0 @@
-sub_code,hemi,analysis,word_ipsi,word_contra,face_ipsi,face_contra,tool_ipsi,tool_contra,space_ipsi,space_contra
-KN,Right,Summed Selectivity,-,-,*,-,-,-,*,*
-KT,Right,Summed Selectivity,*,*,-,-,n/a,n/a,-,-
-EB,Right,Summed Selectivity,-,-,-,-,-,*,-,-
-XC,Left,Summed Selectivity,*,*,*,*,-,-,-,-
-BI,Left,Summed Selectivity,*,*,*,*,-,-,-,-
-BN,Left,Summed Selectivity,-,-,*,-,*,*,-,-
-FO,Right,Summed Selectivity,*,-,-,-,-,-,*,*
-SI,Left,Summed Selectivity,-,*,-,-,-,-,*,*

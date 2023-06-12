@@ -1,9 +1,0 @@
-sub_code,hemi,analysis,word_ipsi,word_contra,face_ipsi,face_contra,tool_ipsi,tool_contra,space_ipsi,space_contra
-KN,Right,Decoding,-,-,-,-,-,-,-,-
-KT,Right,Decoding,-,-,-,-,n/a,n/a,-,-
-EB,Right,Decoding,-,-,-,-,-,-,-,-
-XC,Left,Decoding,*,*,*,*,-,-,-,-
-BI,Left,Decoding,*,*,*,*,-,-,-,-
-BN,Left,Decoding,*,*,-,-,-,-,-,-
-FO,Right,Decoding,-,-,-,-,-,-,-,-
-SI,Left,Decoding,-,-,-,-,-,-,-,-
