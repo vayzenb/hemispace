@@ -147,4 +147,4 @@ for sub, group, hemi in zip(sub_info['sub'], sub_info['group'], sub_info['intact
                     print(f'{sub} {task} does not exist')
 
     #save summary df
-    summary_df.to_csv(f'{results_dir}/hemispace_summary_vals{suf}.csv', index = False)
+    summary_df.to_csv(f'{results_dir}/selectivity/selectivity_summary{suf}.csv', index = False)
