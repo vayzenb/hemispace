@@ -20,7 +20,7 @@ results_dir = params.results_dir
 sub_info = params.sub_info
 task_info = params.task_info
 
-suf = params.suf
+suf = '_roi'
 thresh = params.thresh
 rois = params.rois
 
@@ -35,9 +35,9 @@ for sub in sub_info['sub']:
     for task, cope in zip(task_info['task'], task_info['cope']):
         print(f'Registering {sub} {task} to anat')
         #register each highlevel to anat
-        zstat = f'{sub_dir}/derivatives/fsl/{task}/HighLevel.gfeat/cope{cope}.feat/stats/zstat1.nii.gz'
+        zstat = f'{sub_dir}/derivatives/fsl/{task}/HighLevel{suf}.gfeat/cope{cope}.feat/stats/zstat1.nii.gz'
 
-        out_func = f'{sub_dir}/derivatives/fsl/{task}/HighLevel.gfeat/cope{cope}.feat/stats/zstat1_reg.nii.gz'
+        out_func = f'{sub_dir}/derivatives/fsl/{task}/HighLevel{suf}.gfeat/cope{cope}.feat/stats/zstat1_reg.nii.gz'
 
         #check if zstat exists
         if os.path.exists(zstat):
