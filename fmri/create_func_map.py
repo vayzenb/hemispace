@@ -78,10 +78,12 @@ def create_sub_map():
                 zstat_masked = image.math_img('img1 * img2', img1=zstat, img2=roi)
 
                 #threshold zstat
-                zstat_masked = image.math_img(f'img > {thresh}', img=zstat_masked)
+                zstat_masked = image.threshold_img(zstat_masked, threshold=thresh, two_sided=True)
 
                 #convert zstat to numpy
                 func_np = zstat_masked.get_fdata()
+
+
 
                 #average across voxels in z dimension
                 func_np = np.transpose(np.max(func_np, axis=2))
