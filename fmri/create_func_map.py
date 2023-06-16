@@ -41,7 +41,7 @@ sub_info = pd.read_csv(f'{curr_dir}/sub_info.csv')
 
 #load mni mask
 mni = load_mni152_brain_mask()
-roi_dir = '/user_data/vayzenbe/GitHub_Repos/fmri/roiParcels/mruczek_parcels/binary/'
+roi_dir = '/user_data/vayzenbe/GitHub_Repos/fmri/roiParcels'
 
 
 
@@ -88,6 +88,7 @@ def create_sub_map():
                 #average across voxels in z dimension
                 func_np = np.transpose(np.max(func_np, axis=2))
 
+
                 #create binary version of zstat
                 binary_func = np.copy(func_np)
                 binary_func[binary_func>0] = 1
@@ -120,11 +121,15 @@ def create_group_map():
             neural_map_path = f'{sub_dir}/derivatives/neural_map/{cond}_func.npy'
 
             if os.path.exists(neural_map_path):
+
+                
                 #load neural map
                 neural_map = np.load(neural_map_path)
 
                 #rescale all values as proportion of max to normalize across subject activation
                 neural_map = neural_map/np.max(neural_map)
+                
+                
                 
                 #add neural map to list
                 func_list.append(neural_map)
@@ -136,10 +141,11 @@ def create_group_map():
                 binary_list.append(binary_map)
 
         #average func maps across subjects
-        func_group = np.mean(func_list, axis=0)
+        func_group = np.nanmean(func_list, axis=0)
+        
 
         #sum binary map
-        binary_group = np.sum(binary_list, axis=0)
+        binary_group = np.nansum(binary_list, axis=0)
 
         #save func group
         np.save(f'{results_dir}/neural_map/{cond}_func.npy', func_group)

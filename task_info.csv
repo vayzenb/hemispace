@@ -1,5 +1,5 @@
 task,cond,cope
-spaceloc,space,1
-toolloc,tool,1
-loc,face,1
 loc,word,4
+loc,face,1
+toolloc,tool,1
+spaceloc,space,1

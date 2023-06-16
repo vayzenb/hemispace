@@ -16,7 +16,7 @@ import hemispace_params as params
 mem = 48
 run_time = "3-00:00:00"
 
-pause_time = 15 #how much time (minutes) to wait between jobs
+pause_time = 10 #how much time (minutes) to wait between jobs
 pause_crit = 10 #how many jobs to do before pausing
 
 

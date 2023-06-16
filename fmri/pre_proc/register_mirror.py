@@ -35,14 +35,14 @@ mni_affine = mni.affine
 parcel_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for both julian and mruczek parcels
 anat_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for analysis
 parcel_root = "/user_data/vayzenbe/GitHub_Repos/fmri/roiParcels"
-parcel_type = "mruczek_parcels/binary"
+parcel_type = ""
 
 parcels = params.rois
 
 #TEMP FOR V1
-parcel_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for both julian and mruczek parcels
+parcel_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for masks
 anat_mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for analysis
-parcels = ['V1']
+parcels = ['ventral_visual_cortex','dorsal_visual_cortex']
 
 #exp = 
 def create_mirror_brain(sub,hemi):
@@ -174,8 +174,9 @@ def register_parcels(sub, parcel_dir, parcels):
         bash_cmd = f'flirt -in {roi_parcel} -ref {anat} -out {roi_dir}/parcels/{rp}.nii.gz -applyxfm -init {anat_dir}/mni2anat.mat -interp trilinear'
         subprocess.run(bash_cmd.split(), check = True)
 
-        #bash_cmd = f'fslmaths {roi_dir}/parcels/{rp}.nii.gz -bin {roi_dir}/parcels/{rp}.nii.gz'
-        #subprocess.run(bash_cmd.split(), check = True)
+        #binarize
+        bash_cmd = f'fslmaths {roi_dir}/parcels/{rp}.nii.gz -bin {roi_dir}/parcels/{rp}.nii.gz'
+        subprocess.run(bash_cmd.split(), check = True)
 
 
         #load parcel
