@@ -148,13 +148,15 @@ def calc_patient_distance():
         for position in positions:
             #get patient data for cond and position
             curr_patient_data = patient_data[(patient_data['cond']==cond) & (patient_data['position']==position)]
+            #reset index
+            curr_patient_data = curr_patient_data.reset_index(drop=True)
 
             #get control data for cond and position and preferred hemi
             curr_control_data = control_data[(control_data['cond']==cond) & (control_data['position']==position) & (control_data['hemi']==pref_hemi)]
 
             #calc mean location of peak for controls
             control_mean = [np.mean(curr_control_data['x']),np.mean(curr_control_data['y'])]
-
+            
             #calc distance between each patient peak and control mean
             #and append as new column in patient data
             for i in range(len(curr_patient_data)):
@@ -162,7 +164,7 @@ def calc_patient_distance():
 
             #add curr_patient_data to summary_df
             summary_df = summary_df.append(curr_patient_data)
-
+            
     #save summary df
     summary_df.to_csv(f'{results_dir}/neural_map/patient_dists.csv',index=False)
 
@@ -230,5 +232,5 @@ def resample_controls(iter=10000):
 
 
 #calc_peak_coord()
-#calc_patient_distance()
-resample_controls()
+calc_patient_distance()
+#resample_controls()

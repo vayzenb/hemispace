@@ -1,12 +1,12 @@
 ﻿sub,code,group,exp,age,intact_hemi,dorsal_tasks,ventral_tasks
-sub-108,EB,patient,hemispace,16,right,1,1
 sub-109,XC,patient,hemispace,17,left,1,1
-sub-hemispace1001,KT,patient,hemispace,15,right,1,1
 sub-hemispace1002,SI,patient,hemispace,38,left,1,1
-sub-hemispace1003,FO,patient,hemispace,20,right,1,1
 sub-hemispace1004,BI,patient,hemispace,18,left,1,1
-sub-hemispace1006,KN,patient,hemispace,12,right,1,1
 sub-hemispace1007,BN,patient,hemispace,19,left,1,1
+sub-108,EB,patient,hemispace,16,right,1,1
+sub-hemispace1001,KT,patient,hemispace,15,right,1,1
+sub-hemispace1003,FO,patient,hemispace,20,right,1,1
+sub-hemispace1006,KN,patient,hemispace,12,right,1,1
 sub-025,,control,hemispace,12.26944444,both,0,1
 sub-038,,control,hemispace,17.12777778,both,0,1
 sub-057,,control,hemispace,21.68888889,both,0,1

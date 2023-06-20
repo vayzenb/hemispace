@@ -120,7 +120,7 @@ def resample_decoding():
                         curr_data = summary_df[(summary_df['cond'] == cond) & (summary_df['roi'] == roi) & (summary_df['hemi'] == hemi)]
 
                         #select n_subs random subs
-                        curr_subs = curr_data.sample(n = n_subs, replace = True)
+                        curr_subs = curr_data.sample(n = n_subs, replace = False)
 
                         #get mean of each value
                         acc= curr_subs['acc'].mean()
