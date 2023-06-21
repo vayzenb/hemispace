@@ -91,9 +91,8 @@ def calc_peak_coord():
                     #if hemi is also not the preferred hemi, then flip the map
                     if hemi != 'both' and curr_hemi != pref_hemi:
                         hemi_map = np.flip(hemi_map,axis=1)
+                        print('flipped for', sub, curr_hemi, cond)
 
-                    
-                
                         
                     #loop through possible positions and extract peak
                     for position in positions:
@@ -106,12 +105,13 @@ def calc_peak_coord():
 
                         if peak != 0:
                             #find coordinates of peak
-                            peak_coord = np.where(neural_map == peak)
+                            peak_coord = np.where(hemi_map == peak)
                             
                             
                             #add to summary df
                             summary_df.loc[n] = [sub,group,cond,curr_hemi,position,peak_coord[0][0],peak_coord[1][0]]
                             n += 1
+
 
                         
 
@@ -154,14 +154,17 @@ def calc_patient_distance():
             #get control data for cond and position and preferred hemi
             curr_control_data = control_data[(control_data['cond']==cond) & (control_data['position']==position) & (control_data['hemi']==pref_hemi)]
 
-            #calc mean location of peak for controls
-            control_mean = [np.mean(curr_control_data['x']),np.mean(curr_control_data['y'])]
-            
-            #calc distance between each patient peak and control mean
+            #compute distance between every patient coordinate with every control coordinate
             #and append as new column in patient data
             for i in range(len(curr_patient_data)):
-                curr_patient_data.loc[i,'dist'] = np.sqrt((curr_patient_data.iloc[i]['x']-control_mean[0])**2 + (curr_patient_data.iloc[i]['y']-control_mean[1])**2)
+                curr_dist = []
+                for j in range(len(curr_control_data)):
+                    curr_dist.append(np.sqrt((curr_patient_data.iloc[i]['x']-curr_control_data.iloc[j]['x'])**2 + (curr_patient_data.iloc[i]['y']-curr_control_data.iloc[j]['y'])**2))
 
+                #append mean dist to patient data
+                curr_patient_data.loc[i,'dist'] = np.mean(curr_dist)
+
+ 
             #add curr_patient_data to summary_df
             summary_df = summary_df.append(curr_patient_data)
             
@@ -205,19 +208,21 @@ def resample_controls(iter=10000):
                 test_control_data = curr_control_data.sample(n=n_subs,replace=False)
 
                 #remove samples subs from curr_control_data
-                resampled_control_data = curr_control_data[~curr_control_data['sub'].isin(test_control_data['sub'])]
+                remaining_control_data = curr_control_data[~curr_control_data['sub'].isin(test_control_data['sub'])]
 
-                #calculate mean location of peak for controls
-                control_mean = [np.mean(resampled_control_data['x']),np.mean(resampled_control_data['y'])]
 
-                #calc distance between each test_control_data peak and control mean
-                #and append as new column in test_control_data
-                dists = []
+                #calculuate the distane between each test data and each point in remaining_control_data
+                sample_dists = []
                 for i in range(len(test_control_data)):
-                    dists.append(np.sqrt((test_control_data.iloc[i]['x']-control_mean[0])**2 + (test_control_data.iloc[i]['y']-control_mean[1])**2))
-
+                    dists = []
+                    for j in range(len(remaining_control_data)):
+                        dists.append(np.sqrt((test_control_data.iloc[i]['x']-remaining_control_data.iloc[j]['x'])**2 + (test_control_data.iloc[i]['y']-remaining_control_data.iloc[j]['y'])**2))
+                    
+                    #append min dist to sample_dists
+                    sample_dists.append(np.mean(dists))
+          
                 #calc mean of dists
-                mean_dist = np.mean(dists)
+                mean_dist = np.mean(sample_dists)
 
                 #add mean_dist to resample_data
                 resample_data.loc[ii,f'{cond}_{position}'] = mean_dist
@@ -231,6 +236,6 @@ def resample_controls(iter=10000):
 
 
 
-#calc_peak_coord()
+calc_peak_coord()
 calc_patient_distance()
-#resample_controls()
+resample_controls()
