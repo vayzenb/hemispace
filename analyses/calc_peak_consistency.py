@@ -12,7 +12,7 @@ import itertools
 import pdb
 import os
 import hemispace_params as params
-import pdb
+
 #hide warning
 import warnings
 warnings.filterwarnings("ignore")
@@ -38,7 +38,7 @@ iter = 10
 n_subs = 4
 
 #point to split posterior and anterior
-split = 17
+split = 27
 
 
 def calc_peak_coord():
@@ -93,7 +93,6 @@ def calc_peak_coord():
                         hemi_map = np.flip(hemi_map,axis=1)
                         print('flipped for', sub, curr_hemi, cond)
 
-                        
                     #loop through possible positions and extract peak
                     for position in positions:
                         if position == 'posterior':
@@ -102,6 +101,8 @@ def calc_peak_coord():
                             peak = np.max(hemi_map[split:,:])
                         elif position == 'all':
                             peak = np.max(hemi_map)
+
+                        
 
                         if peak != 0:
                             #find coordinates of peak
@@ -114,7 +115,7 @@ def calc_peak_coord():
 
 
                         
-
+                    
     #save summary df
     summary_df.to_csv(f'{results_dir}/neural_map/peak_coords.csv',index=False)
 
