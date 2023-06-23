@@ -78,10 +78,14 @@ def create_sub_map():
                 zstat_masked = image.math_img('img1 * img2', img1=zstat, img2=roi)
 
                 #threshold zstat
-                zstat_masked = image.threshold_img(zstat_masked, threshold=thresh, two_sided=True)
+                zstat_masked = image.threshold_img(zstat_masked, threshold=thresh, two_sided=False)
 
                 #convert zstat to numpy
                 func_np = zstat_masked.get_fdata()
+
+                #binarize func_np
+                binary_3dfunc= np.copy(func_np)
+                binary_3dfunc[func_np>0] = 1
 
 
 
@@ -99,6 +103,9 @@ def create_sub_map():
 
                 #save binary func
                 np.save(f'{sub_dir}/derivatives/neural_map/{cond}_binary.npy', binary_func)
+
+                #save binary 3d func
+                np.save(f'{sub_dir}/derivatives/neural_map/{cond}_binary_3d.npy', binary_3dfunc)
 
             else:
                 print(f'{cond} zstat does not exist for subject {sub}')

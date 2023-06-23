@@ -32,8 +32,8 @@ rois = params.rois
 start_over = False
 
 #rois = ['V1']
-#extract task info for just scramble cond
-#task_info = task_info[task_info['cond'] == 'scramble']
+#extract task info for just scene cond
+task_info = task_info[task_info['cond'] == 'scene']
 
 def calc_summary_vals(sub, task, cope, roi,hemi):
     """
@@ -100,8 +100,8 @@ def calc_summary_vals(sub, task, cope, roi,hemi):
 
 start_sub = ''
 #check if summary file already exists, else create it
-if start_over == False and os.path.exists(f'{results_dir}/hemispace_summary_vals{suf}.csv'):
-    summary_df = pd.read_csv(f'{results_dir}/hemispace_summary_vals{suf}.csv')
+if start_over == False and os.path.exists(f'{results_dir}/selectivity/selectivity_summary{suf}.csv'):
+    summary_df = pd.read_csv(f'{results_dir}/selectivity/selectivity_summary{suf}.csv')
 
     #if start_sub not equal to empty string, start from that sub
     # else start from the first sub in the sub_info file

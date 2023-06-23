@@ -42,6 +42,7 @@ firstlevel_suf = ''
 sub_dir = f'{data_dir}/{sub}/ses-01'
 #create mvpa dir
 os.makedirs(f'{sub_dir}/derivatives/mvpa', exist_ok = True)
+os.makedirs(f'{sub_dir}/derivatives/snr', exist_ok = True)
 
 
 
@@ -178,7 +179,7 @@ for hemi in hemis:
 
                 #save all_data
                 np.save(f'{sub_dir}/derivatives/mvpa/{hemi}_{roi}_{task}_{cond}.npy', all_data)
-                np.save(f'{results_dir}/snr/{hemi}_{roi}_{task}_{cond}_snr.npy', np.mean(snr_list))
+                np.save(f'{sub_dir}/derivatives/snr/{hemi}_{roi}_{task}_{cond}_snr.npy', np.mean(snr_list))
                 
 
 
