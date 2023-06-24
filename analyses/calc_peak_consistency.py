@@ -52,13 +52,13 @@ def calc_peak_coord():
 
         #Determine number of positions and preferred hemi
         if cond == 'word' or cond == 'tool':
-            positions = ['all']
             pref_hemi = 'left'
 
         elif cond == 'face' or cond == 'space':
-            positions = ['posterior','anterior']
             pref_hemi = 'right'
         
+
+        positions = ['posterior','anterior']
         func_list = []
         binary_list = []     
         for sub, group, hemi in zip(sub_info['sub'], sub_info['group'], sub_info['intact_hemi']):
@@ -138,14 +138,12 @@ def calc_patient_distance():
 
         #Determine number of positions and preferred hemi
         if cond == 'word' or cond == 'tool':
-            positions = ['all']
             pref_hemi = 'left'
 
         elif cond == 'face' or cond == 'space':
-            positions = ['posterior','anterior']
             pref_hemi = 'right'
         
-        
+        positions = ['posterior','anterior']
         for position in positions:
             #get patient data for cond and position
             curr_patient_data = patient_data[(patient_data['cond']==cond) & (patient_data['position']==position)]
@@ -193,14 +191,12 @@ def resample_controls(iter=10000):
 
             #Determine number of positions and preferred hemi
             if cond == 'word' or cond == 'tool':
-                positions = ['all']
                 pref_hemi = 'left'
 
             elif cond == 'face' or cond == 'space':
-                positions = ['posterior','anterior']
                 pref_hemi = 'right'
             
-            
+            positions = ['posterior','anterior']
             for position in positions:
                 #get control data for cond and position and preferred hemi
                 curr_control_data = control_data[(control_data['cond']==cond) & (control_data['position']==position) & (control_data['hemi']==pref_hemi)]
