@@ -120,7 +120,7 @@ def resample_decoding():
                         curr_data = summary_df[(summary_df['cond'] == cond) & (summary_df['roi'] == roi) & (summary_df['hemi'] == hemi)]
 
                         #select n_subs random subs
-                        curr_subs = curr_data.sample(n = n_subs, replace = False)
+                        curr_subs = curr_data.sample(n = n_subs, replace = True)
 
                         #get mean of each value
                         acc= curr_subs['acc'].mean()
@@ -135,6 +135,47 @@ def resample_decoding():
     decoding_df.to_csv(f'{results_dir}/resamples/acc_resamples{suf}.csv', index=False)
 
 
+def resample_neural_map():
+    """
+    Resample neural 
+    """
 
-resample_selectivity()
+    print('resampling map data...')
+
+    results_dir = f'{params.results_dir}/neural_map'
+
+    #load summary file
+    summary_df = pd.read_csv(f'{results_dir}/full_map_overlap{suf}.csv')
+
+    #extract only control subs
+    summary_df = summary_df[summary_df['group'] == 'control']
+
+    
+    #create dataframe for each cond
+    resample_df = pd.DataFrame(columns =task_info['cond'])
+
+    for ii in range(0,iter):
+            
+            for cond in task_info['cond']:
+                
+                #select data that meets cond
+                curr_data = summary_df[(summary_df['cond'] == cond)]
+    
+                #select n_subs random subs
+                curr_subs = curr_data.sample(n = n_subs, replace = True)
+                
+    
+                #get mean of each value
+                overlap = curr_subs['dice'].mean()
+    
+                #append to to dataframe
+                resample_df.loc[ii, f'{cond}'] = overlap
+
+    
+    #save resamples
+    resample_df.to_csv(f'{results_dir}/map_overlap_resamples{suf}.csv', index=False)
+
+
+#resample_selectivity()
 #resample_decoding()
+resample_neural_map()

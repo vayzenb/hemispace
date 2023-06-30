@@ -1,0 +1,9 @@
+sub_code,hemi,analysis,word_left,word_right,face_left,face_right,tool_left,tool_right,space_left,space_right
+XC,Left,Summed Selectivity,*,*,*,*,*,*,*,*
+SI,Left,Summed Selectivity,-,-,-,-,*,*,*,*
+BI,Left,Summed Selectivity,*,*,*,*,-,-,-,-
+BN,Left,Summed Selectivity,*,-,-,-,*,*,-,*
+EB,Right,Summed Selectivity,-,-,-,-,*,*,*,*
+KT,Right,Summed Selectivity,-,-,-,*,n/a,n/a,-,-
+FO,Right,Summed Selectivity,-,-,-,*,-,-,*,*
+KN,Right,Summed Selectivity,*,-,-,*,*,*,*,*
