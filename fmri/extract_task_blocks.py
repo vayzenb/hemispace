@@ -32,6 +32,9 @@ results_dir = params.results_dir
 sub_info = params.sub_info
 task_info = pd.read_csv(f'{curr_dir}/task_info_fix.csv')
 
+#extract only loc from task_info
+task_info = task_info[task_info['task'] == 'loc']
+
 suf = params.suf
 thresh = params.thresh
 rois = params.rois

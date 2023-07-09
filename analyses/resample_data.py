@@ -90,6 +90,32 @@ def resample_selectivity():
     sum_selec_norm_df.to_csv(f'{results_dir}/resamples/sum_selec_norm_resamples{suf}.csv', index=False)
 
 
+def generic_resample(data_type, summary_df, data_conds):
+    print(f'Resampling {data_type}....')
+
+    summary_df = summary_df[summary_df['group'] == 'control']
+    resample_df = pd.DataFrame(columns =data_conds)
+
+    for ii in range(0,iter):
+        #select n_subs random subs
+        curr_subs = summary_df.sample(n = n_subs, replace = True)
+        
+        for cond in data_conds:
+            #get mean of each value
+            val= curr_subs[cond].mean()
+
+            #append to to dataframe
+            resample_df.loc[ii, f'{cond}'] = val
+
+    #save resample df
+    resample_df.to_csv(f'{results_dir}/{data_type}/{data_type}_resamples{suf}.csv', index=False)
+                
+
+
+
+
+
+
 
 def resample_decoding():
     """
@@ -178,4 +204,10 @@ def resample_neural_map():
 
 #resample_selectivity()
 #resample_decoding()
-resample_neural_map()
+#resample_neural_map()
+
+data_type = 'confound'
+data_conds = ['tsnr','rot','trans']
+summary_df = pd.read_csv(f'{params.results_dir}/{data_type}/{data_type}_summary{suf}.csv')
+
+generic_resample(data_type, summary_df, data_conds)

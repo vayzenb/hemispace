@@ -22,7 +22,7 @@ from sklearn.svm import SVC
 #roi = sys.argv[2]
 
 
-folds = 20
+folds = 30
 test_size = 0.2
 
 
@@ -71,7 +71,8 @@ for task,cond in zip(task_info['task'], task_info['cond']):
 
             #check if task and cond exist in mvpa dir
             if os.path.exists(f'{mvpa_dir}/{hemi}_{roi}_{task}_{target}.npy'):    
-                #print(f'Running {sub} {hemi}_{roi}_{task}_{target} vs {distract}...')            
+                
+                print(f'Running {sub} {hemi}_{roi}_{task}_{target} vs {distract}...')            
 
                 #load target and distract data
                 target_data = np.load(f'{mvpa_dir}/{hemi}_{roi}_{task}_{target}.npy')
@@ -114,7 +115,7 @@ for task,cond in zip(task_info['task'], task_info['cond']):
 
                 #print(f'{sub} {hemi} {roi} {task} {np.mean(roi_acc)}')
 
-            summary_df.to_csv(f'{results_dir}/hemispace_decoding.csv', index=False)
+            summary_df.to_csv(f'{results_dir}/decoding/decoding_summary.csv', index=False)
 
 
 

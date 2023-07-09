@@ -33,8 +33,12 @@ sub_dir = f'{data_dir}/{sub}/ses-01'
 
 anat = f'{sub_dir}/anat/{sub}_ses-01_T1w_brain.nii.gz'
 
+#only extract loc from task_info
+task_info = task_info[task_info['task'] == 'loc']
+
 for task in task_info['task']:
     for run in runs:
+        print(sub, task, run)
         run_dir = f'{sub_dir}/derivatives/fsl/{task}/run-0{run}/1stLevel{firstlevel_suf}.feat'
         filtered_func = f'{run_dir}/filtered_func_data.nii.gz'
         out_func = f'{run_dir}/filtered_func_data_reg.nii.gz'

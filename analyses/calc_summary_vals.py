@@ -29,11 +29,11 @@ task_info = params.task_info
 suf = params.suf
 thresh = params.thresh
 rois = params.rois
-start_over = False
+start_over = True
 
 #rois = ['V1']
 #extract task info for just scene cond
-task_info = task_info[task_info['cond'] == 'scene']
+
 
 def calc_summary_vals(sub, task, cope, roi,hemi):
     """

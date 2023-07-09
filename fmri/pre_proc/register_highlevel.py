@@ -20,7 +20,7 @@ results_dir = params.results_dir
 sub_info = params.sub_info
 task_info = params.task_info
 
-suf = '_roi'
+suf = ''
 thresh = params.thresh
 rois = params.rois
 
@@ -29,6 +29,9 @@ runs = params.runs
 
 
 mni='/opt/fsl/6.0.3/data/standard/MNI152_T1_2mm_brain.nii.gz' #this is the MNI we use for analysis
+
+#extract just sub-109 and sub-hemispace1004 from sub_info
+sub_info = sub_info.loc[sub_info['sub'].isin(['sub-109','sub-hemispace1004'])]
 
 for sub in sub_info['sub']:
     sub_dir = f'{data_dir}/{sub}/ses-01'

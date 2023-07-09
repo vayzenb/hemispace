@@ -1,5 +1,5 @@
 sub_code,hemi,analysis,word_left,word_right,,face_left,face_right,,tool_left,tool_right,,space_left,space_right,
-XC,Left,Activation,*,*,,*,*,,*,*,,*,*,
+XC,Left,Activation,-,-,,-,-,,*,*,,*,*,
 SI,Left,Activation,-,-,,-,-,,*,*,,*,*,
 BI,Left,Activation,*,*,,-,-,,-,-,,-,-,
 BN,Left,Activation,*,*,,-,-,,*,*,,*,*,
