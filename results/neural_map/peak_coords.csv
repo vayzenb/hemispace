@@ -1,7 +1,9 @@
 sub,group,cond,hemi,position,x,y
-sub-109,patient,word,left,posterior,17,57
+sub-109,patient,word,left,posterior,19,50
+sub-109,patient,word,left,anterior,31,68
 sub-hemispace1002,patient,word,left,posterior,20,49
 sub-hemispace1002,patient,word,left,anterior,29,70
+sub-hemispace1004,patient,word,left,posterior,23,49
 sub-hemispace1007,patient,word,left,posterior,20,52
 sub-hemispace1007,patient,word,left,anterior,30,61
 sub-108,patient,word,right,posterior,19,58
@@ -35,6 +37,7 @@ sub-083,control,word,left,posterior,21,50
 sub-083,control,word,left,anterior,27,55
 sub-083,control,word,right,posterior,21,37
 sub-083,control,word,right,anterior,32,27
+sub-084,control,word,left,anterior,40,53
 sub-085,control,word,left,posterior,17,55
 sub-085,control,word,left,anterior,27,61
 sub-085,control,word,right,posterior,20,36
@@ -79,6 +82,8 @@ sub-hemispace2002,control,word,right,posterior,21,34
 sub-hemispace2003,control,word,left,posterior,17,54
 sub-hemispace2003,control,word,left,anterior,42,63
 sub-hemispace2003,control,word,right,posterior,13,36
+sub-109,patient,face,left,posterior,18,39
+sub-109,patient,face,left,anterior,31,24
 sub-hemispace1002,patient,face,left,posterior,22,28
 sub-hemispace1002,patient,face,left,anterior,27,24
 sub-hemispace1004,patient,face,left,anterior,43,27
