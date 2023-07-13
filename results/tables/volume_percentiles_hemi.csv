@@ -1,7 +1,7 @@
 sub_code,hemi,analysis,word_left,word_right,,face_left,face_right,,tool_left,tool_right,,space_left,space_right,
 XC,Left,Volume,24.95,75.28,,7.8,0.04,,0.19,0.75,,0.33,0.04,
 SI,Left,Volume,93.91,99.99,,99.99,73.37,,0.13,0.64,,0.0,0.0,
-BI,Left,Volume,0.0,0.01,,0.44,0.0,,5.33,16.64,,38.82,12.81,
+BI,Left,Volume,1.13,8.64,,6.77,0.04,,5.33,16.64,,38.82,12.81,
 BN,Left,Volume,2.16,14.51,,88.88,21.52,,0.01,0.14,,5.39,1.08,
 EB,Right,Volume,99.71,100.0,,98.5,45.36,,0.72,3.14,,0.05,0.0,
 KT,Right,Volume,99.98,100.0,,32.34,0.99,,n/a,n/a,,99.28,95.02,

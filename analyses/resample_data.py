@@ -90,9 +90,12 @@ def resample_selectivity():
     sum_selec_norm_df.to_csv(f'{results_dir}/resamples/sum_selec_norm_resamples{suf}.csv', index=False)
 
 
-def generic_resample(data_type, summary_df, data_conds):
+def generic_resample(data_type, summary_df, data_conds, roi = ''):
     print(f'Resampling {data_type}....')
 
+    if roi != '':
+        roi = f'_{roi}'
+        
     summary_df = summary_df[summary_df['group'] == 'control']
     resample_df = pd.DataFrame(columns =data_conds)
 
@@ -104,11 +107,15 @@ def generic_resample(data_type, summary_df, data_conds):
             #get mean of each value
             val= curr_subs[cond].mean()
 
+            #check if val is a numebr
+            if np.isnan(val):
+                pdb.set_trace()
+
             #append to to dataframe
             resample_df.loc[ii, f'{cond}'] = val
 
     #save resample df
-    resample_df.to_csv(f'{results_dir}/{data_type}/{data_type}_resamples{suf}.csv', index=False)
+    resample_df.to_csv(f'{results_dir}/{data_type}/{data_type}_resamples{roi}{suf}.csv', index=False)
                 
 
 
@@ -150,6 +157,9 @@ def resample_decoding():
 
                         #get mean of each value
                         acc= curr_subs['acc'].mean()
+
+                        
+                        
 
                         #append to to dataframe
                         decoding_df.loc[ii, f'{cond}_{hemi}_{roi}'] = acc
@@ -205,9 +215,32 @@ def resample_neural_map():
 #resample_selectivity()
 #resample_decoding()
 #resample_neural_map()
-
+suf = '_roi'
 data_type = 'confound'
-data_conds = ['tsnr','rot','trans']
+data_conds = ['tsnr']
 summary_df = pd.read_csv(f'{params.results_dir}/{data_type}/{data_type}_summary{suf}.csv')
 
-generic_resample(data_type, summary_df, data_conds)
+#extract controls
+data_summary = summary_df[summary_df['group'] == 'control']
+
+#replace control tsnr with mean for each sub
+for roi in data_summary['roi'].unique():
+    for sub in data_summary['sub'].unique():
+        mean_tsnr = data_summary[(data_summary['sub'] == sub) & (data_summary['roi'] == roi)]['tsnr'].mean()
+        data_summary.loc[(data_summary['sub'] == sub) & (data_summary['roi'] == roi), 'tsnr'] = mean_tsnr
+
+#drop task column
+data_summary = data_summary.drop(columns = ['hemi','task', 'rot','trans'])
+
+#drop rows with nans
+data_summary = data_summary.dropna()
+
+#drop duplicates
+data_summary = data_summary.drop_duplicates()
+
+
+
+for roi in data_summary['roi'].unique():
+    roi_summary = data_summary[data_summary['roi'] == roi]
+    
+    generic_resample(data_type, roi_summary, data_conds, roi)

@@ -1,7 +1,7 @@
 sub_code,hemi,analysis,word_left,word_right,,face_left,face_right,,tool_left,tool_right,,space_left,space_right,
 XC,Left,Summed Selectivity,53.71,99.99,,34.88,4.44,,1.03,2.29,,0.11,0.0,
 SI,Left,Summed Selectivity,95.91,100.0,,99.99,90.03,,0.28,0.09,,0.0,0.0,
-BI,Left,Summed Selectivity,0.0,0.0,,0.34,0.04,,27.82,58.29,,76.41,43.0,
+BI,Left,Summed Selectivity,0.0,0.01,,0.28,0.04,,27.82,58.29,,76.41,43.0,
 BN,Left,Summed Selectivity,0.49,24.46,,92.69,41.63,,0.0,0.0,,7.51,0.43,
 EB,Right,Summed Selectivity,55.36,99.99,,98.95,64.47,,0.28,0.09,,0.53,0.01,
 KT,Right,Summed Selectivity,3.01,73.88,,4.09,0.28,,n/a,n/a,,99.97,99.6,

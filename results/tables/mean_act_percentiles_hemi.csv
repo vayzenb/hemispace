@@ -1,7 +1,7 @@
 sub_code,hemi,analysis,word_left,word_right,,face_left,face_right,,tool_left,tool_right,,space_left,space_right,
 XC,Left,Activation,95.12,94.83,,21.99,3.73,,0.22,1.84,,2.95,0.03,
 SI,Left,Activation,8.21,9.13,,80.22,32.65,,0.0,0.1,,0.0,0.0,
-BI,Left,Activation,0.0,0.01,,0.09,0.02,,7.48,42.08,,98.41,87.36,
+BI,Left,Activation,0.0,0.02,,0.04,0.0,,7.48,42.08,,98.41,87.36,
 BN,Left,Activation,88.26,89.53,,23.81,4.41,,1.78,14.79,,0.0,0.0,
 EB,Right,Activation,36.99,39.92,,55.72,15.24,,0.01,0.14,,0.0,0.0,
 KT,Right,Activation,13.75,15.48,,99.86,89.58,,n/a,n/a,,100.0,100.0,

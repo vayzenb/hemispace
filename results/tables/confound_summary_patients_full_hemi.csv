@@ -1,0 +1,9 @@
+sub_code,hemi,tSNR,Rotation,Translation
+XC,Left,-,-,-
+SI,Left,*,-,-
+BI,Left,-,*,-
+BN,Left,*,*,-
+EB,Right,-,-,-
+KT,Right,-,-,-
+FO,Right,*,-,*
+KN,Right,*,-,-

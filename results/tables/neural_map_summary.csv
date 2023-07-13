@@ -1,7 +1,7 @@
 sub_code,hemi,word_posterior,word_anterior,face_posterior,face_anterior,tool_posterior,tool_anterior,space_posterior,space_anterior
-XC,left,-,n/a,n/a,n/a,-,-,*,-
+XC,left,-,-,*,-,-,-,*,-
 SI,left,*,*,-,*,-,-,n/a,*
-BI,left,n/a,n/a,n/a,*,-,-,-,-
+BI,left,*,n/a,n/a,*,-,-,-,-
 BN,left,-,-,-,-,n/a,n/a,-,*
 EB,right,*,-,-,*,*,n/a,-,-
 KT,right,*,*,n/a,*,n/a,n/a,*,*
