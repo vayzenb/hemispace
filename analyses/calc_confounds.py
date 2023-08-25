@@ -1,3 +1,8 @@
+'''
+Computes confound metrics (tsnr, motion) for each subject and saves to csv
+'''
+
+
 import sys
 import os
 curr_dir = '/user_data/vayzenbe/GitHub_Repos/hemispace'

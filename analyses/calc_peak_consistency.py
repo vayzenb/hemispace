@@ -1,4 +1,8 @@
-curr_dir = f'/user_data/vayzenbe/GitHub_Repos/hemispace' #CHANGE AS NEEEDED CAUSE ITS FOR VLAAAD
+'''
+Calculates the peak coordinates for each subject and each condition
+'''
+
+curr_dir = f'/user_data/vayzenbe/GitHub_Repos/hemispace'
 
 import sys
 sys.path.insert(0,curr_dir)
@@ -33,7 +37,7 @@ hemis = params.hemis
 #load subject info
 sub_info = pd.read_csv(f'{curr_dir}/sub_info.csv')
 
-iter = 10
+iter = 10000
 #number of subs to pull on each resample
 n_subs = 4
 

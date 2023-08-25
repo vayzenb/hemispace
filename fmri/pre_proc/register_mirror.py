@@ -1,3 +1,9 @@
+'''
+Creates Mirror brain for patients and registers ROIs from MNI to each individual subject
+
+'''
+
+
 curr_dir = '/user_data/vayzenbe/GitHub_Repos/hemispace'
 import sys
 

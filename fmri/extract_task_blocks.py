@@ -1,3 +1,7 @@
+'''
+Extracts the timeseries of activation for each block of each task
+'''
+
 import sys
 curr_dir = '/user_data/vayzenbe/GitHub_Repos/hemispace'
 sys.path.insert(0, curr_dir)

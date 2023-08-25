@@ -1,3 +1,7 @@
+'''
+Create 2D heatmap of activation for each subject and group average
+'''
+
 curr_dir = f'/user_data/vayzenbe/GitHub_Repos/hemispace' #CHANGE AS NEEEDED CAUSE ITS FOR VLAAAD
 
 import sys
