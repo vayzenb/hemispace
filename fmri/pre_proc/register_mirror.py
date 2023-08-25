@@ -1,6 +1,5 @@
 '''
 Creates Mirror brain for patients and registers ROIs from MNI to each individual subject
-
 '''
 
 

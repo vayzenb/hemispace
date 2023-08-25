@@ -1,5 +1,5 @@
 """
-iteratively creates sbatch scripts to run multiple jobs at once the
+iteratively creates sbatch scripts to run multiple jobs at once the cluster
 """
 curr_dir = f'/user_data/vayzenbe/GitHub_Repos/hemispace' #CHANGE AS NEEEDED CAUSE ITS FOR VLAAAD
 
