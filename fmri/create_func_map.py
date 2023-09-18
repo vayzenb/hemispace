@@ -164,7 +164,73 @@ def create_group_map():
         #save binary group
         np.save(f'{results_dir}/neural_map/{cond}_binary.npy', binary_group)
 
+def create_3d_group_map():
+    '''
+    Create non-parametric group map for controls
+    '''
+    print('Creating 3d group maps...')
+    #extract control subs from sub_info
+    control_subs = sub_info[sub_info['group']=='control']
 
-create_sub_map()
-create_group_map()
+    for task,cond, cope in zip(task_info['task'], task_info['cond'],task_info['cope']):
+        print(f'Processing {cond} {task}')
+        n = 0
+        func_list = []
+        binary_list = []     
+        for sub in control_subs['sub']:
+            sub_dir = f'{data_dir}/{sub}/ses-01'
+
+            
+
+            #check if neural map exists
+            neural_map_path = f'{sub_dir}/derivatives/neural_map/{cond}_func.npy'
+
+            if os.path.exists(neural_map_path):
+                if n == 0:
+                    #load zstat reg
+                    zstat_reg = image.load_img(f'{sub_dir}/derivatives/fsl/{task}/HighLevel{suf}.gfeat/cope{cope}.feat/stats/zstat1_reg.nii.gz')
+                    affine = zstat_reg.affine
+                    header = zstat_reg.header
+                    n+=1
+                
+                #load neural map
+                neural_map = np.load(neural_map_path)
+
+                #rescale all values as proportion of max to normalize across subject activation
+                neural_map = neural_map/np.max(neural_map)
+                
+                
+                
+                #add neural map to list
+                func_list.append(neural_map)
+
+                #load binary map
+                binary_map = np.load(f'{sub_dir}/derivatives/neural_map/{cond}_binary_3d.npy')
+
+                #add binary map to list
+                binary_list.append(binary_map)
+
+        
+
+        #sum binary map
+        binary_group = np.nansum(binary_list, axis=0)
+        np.save(f'{results_dir}/neural_map/{cond}_binary_3d.npy', binary_group)
+
+        #convert to nifti
+        binary_group = nib.Nifti1Image(binary_group, affine, header)
+        #save binary group
+        nib.save(binary_group,f'{results_dir}/neural_map/{cond}_group.nii.gz')
+
+        #save func group
+        #np.save(f'{results_dir}/neural_map/{cond}_func.npy', func_group)
+
+        #save binary group
+        
+
+
+#create_sub_map()
+#create_group_map()
+
+create_3d_group_map()
+
 

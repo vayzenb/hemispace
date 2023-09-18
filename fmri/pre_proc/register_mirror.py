@@ -221,9 +221,9 @@ control_subs=["hemispace2001", "hemispace2002", "hemispace2003",
 '''
 
 
-all_subs = sub_info['sub'].values
+""" all_subs = sub_info['sub'].values
 
-
+all_subs = ['sub-111']
 for sub in all_subs:
     if sub[:4] != 'sub-':
         sub = 'sub-' + sub
@@ -234,14 +234,19 @@ for sub in all_subs:
 
     parcel_dir = f'{parcel_root}/{parcel_type}'
 
-    '''
+    
     if group == 'patient':
         create_mirror_brain(sub,hemi)
     else:
         create_hemi_mask(sub)
-    '''
+    
 
 
     #register_mni(sub,group)
     register_parcels(sub, parcel_dir, parcels)
+ """
 
+sub = 'sub-111'
+hemi = 'left'
+
+create_mirror_brain(sub,hemi)
