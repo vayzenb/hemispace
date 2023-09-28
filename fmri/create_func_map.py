@@ -78,11 +78,16 @@ def create_sub_map():
                 #Load zstat
                 zstat = image.load_img(zstat_path)
 
-                #mask zstat with roi
-                zstat_masked = image.math_img('img1 * img2', img1=zstat, img2=roi)
+
 
                 #threshold zstat
-                zstat_masked = image.threshold_img(zstat_masked, threshold=thresh, two_sided=False)
+                zstat = image.threshold_img(zstat, threshold=thresh, two_sided=False)
+
+                #extract unmasked whole_brain data
+                whole_brain = zstat.get_fdata()
+
+                #mask zstat with roi
+                zstat_masked = image.math_img('img1 * img2', img1=zstat, img2=roi)
 
                 #convert zstat to numpy
                 func_np = zstat_masked.get_fdata()
@@ -90,6 +95,9 @@ def create_sub_map():
                 #binarize func_np
                 binary_3dfunc= np.copy(func_np)
                 binary_3dfunc[func_np>0] = 1
+
+                #binarize whole brain
+                whole_brain[whole_brain>0] = 1
 
 
 
@@ -110,6 +118,9 @@ def create_sub_map():
 
                 #save binary 3d func
                 np.save(f'{sub_dir}/derivatives/neural_map/{cond}_binary_3d.npy', binary_3dfunc)
+
+                #save whole brain
+                np.save(f'{sub_dir}/derivatives/neural_map/{cond}_whole_brain.npy', whole_brain)
 
             else:
                 print(f'{cond} zstat does not exist for subject {sub}')
@@ -183,7 +194,7 @@ def create_3d_group_map():
             
 
             #check if neural map exists
-            neural_map_path = f'{sub_dir}/derivatives/neural_map/{cond}_func.npy'
+            neural_map_path = f'{sub_dir}/derivatives/neural_map/{cond}_whole_brain.npy'
 
             if os.path.exists(neural_map_path):
                 if n == 0:
@@ -193,19 +204,10 @@ def create_3d_group_map():
                     header = zstat_reg.header
                     n+=1
                 
-                #load neural map
-                neural_map = np.load(neural_map_path)
 
-                #rescale all values as proportion of max to normalize across subject activation
-                neural_map = neural_map/np.max(neural_map)
-                
-                
-                
-                #add neural map to list
-                func_list.append(neural_map)
 
                 #load binary map
-                binary_map = np.load(f'{sub_dir}/derivatives/neural_map/{cond}_binary_3d.npy')
+                binary_map = np.load(neural_map_path)
 
                 #add binary map to list
                 binary_list.append(binary_map)
@@ -214,7 +216,7 @@ def create_3d_group_map():
 
         #sum binary map
         binary_group = np.nansum(binary_list, axis=0)
-        np.save(f'{results_dir}/neural_map/{cond}_binary_3d.npy', binary_group)
+        np.save(f'{results_dir}/neural_map/{cond}_group_map.npy', binary_group)
 
         #convert to nifti
         binary_group = nib.Nifti1Image(binary_group, affine, header)
@@ -228,7 +230,7 @@ def create_3d_group_map():
         
 
 
-#create_sub_map()
+create_sub_map()
 #create_group_map()
 
 create_3d_group_map()
