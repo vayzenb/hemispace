@@ -133,6 +133,8 @@ def create_group_map():
 
     for task,cond, cope in zip(task_info['task'], task_info['cond'],task_info['cope']):
         print(f'Processing {cond} {task}')
+        
+        
         n = 0
         func_list = []
         binary_list = []     
@@ -189,14 +191,17 @@ def create_3d_group_map():
         func_list = []
         binary_list = []     
         for sub in control_subs['sub']:
+            
+            
             sub_dir = f'{data_dir}/{sub}/ses-01'
 
             
 
             #check if neural map exists
-            neural_map_path = f'{sub_dir}/derivatives/neural_map/{cond}_whole_brain.npy'
+            neural_map_path = f'{sub_dir}/derivatives/neural_map/{cond}_binary_3d.npy'
 
             if os.path.exists(neural_map_path):
+                print(f'path exists for {sub}')
                 if n == 0:
                     #load zstat reg
                     zstat_reg = image.load_img(f'{sub_dir}/derivatives/fsl/{task}/HighLevel{suf}.gfeat/cope{cope}.feat/stats/zstat1_reg.nii.gz')
@@ -213,7 +218,7 @@ def create_3d_group_map():
                 binary_list.append(binary_map)
 
         
-
+        #pdb.set_trace()
         #sum binary map
         binary_group = np.nansum(binary_list, axis=0)
         np.save(f'{results_dir}/neural_map/{cond}_group_map.npy', binary_group)
@@ -230,7 +235,7 @@ def create_3d_group_map():
         
 
 
-create_sub_map()
+#create_sub_map()
 #create_group_map()
 
 create_3d_group_map()
